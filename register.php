@@ -21,16 +21,16 @@
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Registrar Cuenta</div>
       <div class="card-body">
-        <form>
+        <form method="post">
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
                 <label for="exampleInputName">Nombres</label>
-                <input class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
+                <input class="form-control" id="exampleInputName" name="nombreusuario" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
               </div>
               <div class="col-md-6">
                 <label for="exampleInputLastName">Apellidos</label>
-                <input class="form-control" id="exampleInputLastName" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
+                <input class="form-control" id="exampleInputLastName" name="apellidousuario" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
               </div>
             </div>
           </div>
@@ -38,12 +38,12 @@
             <div class="form-row">
               <div class = "col-md-6">
             <label for="exampleInputEmail1">Direccion de Correo Electronico</label>
-            <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <input class="form-control" id="exampleInputEmail1" name="correousario" type="email" aria-describedby="emailHelp" placeholder="Enter email">
             </div>  
 
             <div class = "col-md-6">
-            <label for="exampleInputEmail1">Carnet</label>
-            <input class="form-control" id="exampleInputCarnet" type="email" aria-describedby="emailHelp" placeholder="No Carnet">
+            <label for="exampleInputEmail1">Cedula</label>
+            <input class="form-control" id="exampleInputCarnet" name="cedulausuario" type="email" aria-describedby="emailHelp" placeholder="Cedula">
             </div>  
 
           </div>
@@ -52,16 +52,55 @@
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="exampleInputPassword1">Contraseña</label>
-                <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password">
+                <label for="exampleInputCelular">Celular</label>
+                <input class="form-control" id="exampleInputCelular" name="celularusuario" type="text" placeholder="Cedular">
               </div>
               <div class="col-md-6">
-                <label for="exampleConfirmPassword">Confirmar Contraseña</label>
-                <input class="form-control" id="exampleConfirmPassword" type="password" placeholder="Confirm password">
+                <label for="exampleDireccion">Direccion</label>
+                <input class="form-control" id="exampleDireccion" name="direccionusuario" type="text" placeholder="Direccion">
               </div>
             </div>
           </div>
-          <a class="btn btn-primary btn-block" href="login.html">Registrarse</a>
+
+
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="exampleRol">Rol</label>
+                <select class="form-control" id="exampleRol" name="rolusuario" type="text" placeholder="Cedular">
+                <?php
+                       include 'conex.php';
+                        $conex = mysqli_connect("localhost", "agat", "1234", "bd");
+                        $query = mysqli_query($conex,"SELECT `idNiveles`, `NombreNivel` FROM `niveles` WHERE NombreNivel <>'Administrador'");
+                            while($valores = mysqli_fetch_array($query)){
+                                        echo "<option value='$valores[idNiveles]'>$valores[NombreNivel]</option>";
+                              }
+                ?>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="exampleDireccion">Carnet</label>
+                <input class="form-control" id="exampleCarnet" name="carnetusuario" type="text" placeholder="Carnet">
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input class="form-control" id="exampleInputPassword1" name="passworduser" type="password" placeholder="Password">
+              </div>
+              <div class="col-md-6">
+                <label for="exampleConfirmPassword">Confirmar Contraseña</label>
+                <input class="form-control" id="exampleConfirmPassword" name="passworduserc" type="password" placeholder="Confirm password">
+              </div>
+            </div>
+          </div>
+          <input class="btn btn-primary btn-block" type="submit" value="Registrarse">
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="login.html">Pagina Principal</a>
@@ -75,6 +114,18 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="validacion.js"></script>
+<?php
+
+    require_once "model/crud.php";
+    require_once "controller/controller.php";
+
+  $registro = MvcController();
+  $registro => RegistroUsuarioController();
+
+?>
+
 </body>
 
 </html>
+
