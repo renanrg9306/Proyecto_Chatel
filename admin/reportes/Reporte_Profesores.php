@@ -58,17 +58,18 @@ $pdf->Cell(70, 8, '', 0);
 $pdf->Ln(8);
 $pdf->SetFont('Arial', '', 8);
 //CONSULTA
-$docentes = mysqli_query($conex, "SELECT * FROM profesor");
+$docentes = mysqli_query($conex, "SELECT P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono FROM persona As P
+INNER JOIN profesor AS Pro ON P.idPersona = Pro.idPersona");
 $item = 0;
 while($docentes2 = mysqli_fetch_array($docentes)){
 	$item = $item+1;
 	$pdf->Cell(10, 8, $item, 0);
-	$pdf->Cell(30, 8, utf8_decode($docentes2['NombresProfesor']), 0); //decode es para poner los caracteres raros a como estan en la BD
-	$pdf->Cell(30, 8, utf8_decode($docentes2['ApellidosProfesor']), 0);
-	$pdf->Cell(30, 8, $docentes2['CedulaProfesor'], 0);
-    $pdf->Cell(50, 8, utf8_decode($docentes2['CorreoProfesor']), 0);
-   	$pdf->Cell(20, 8, $docentes2['CelularProfesor'], 0);
-   	$pdf->Cell(20, 8, $docentes2['TelefonoProfesor'], 0);
+	$pdf->Cell(30, 8, utf8_decode($docentes2['Nombre']), 0); //decode es para poner los caracteres raros a como estan en la BD
+	$pdf->Cell(30, 8, utf8_decode($docentes2['Apellido']), 0);
+	$pdf->Cell(30, 8, $docentes2['Cedula'], 0);
+    $pdf->Cell(50, 8, utf8_decode($docentes2['Correo']), 0);
+   	$pdf->Cell(20, 8, $docentes2['Celular'], 0);
+   	$pdf->Cell(20, 8, $docentes2['Telefono'], 0);
 	$pdf->Ln(5);
 
 	$texto = utf8_decode('Lorem Ipsum …...');

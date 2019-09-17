@@ -62,19 +62,20 @@ $pdf->Cell(70, 8, '', 0);
 $pdf->Ln(8);
 $pdf->SetFont('Arial', '', 8);
 //CONSULTA
-$productos = mysqli_query($conex, "SELECT * FROM estudiantes");
+$productos = mysqli_query($conex, "SELECT Es.carnet,P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,P.Estado
+FROM persona AS P INNER JOIN estudiantes AS Es On P.idPersona = Es.idPersona");
 $item = 0;
 while($productos2 = mysqli_fetch_array($productos)){
 	$item = $item+1;
 	$pdf->Cell(10, 8, $item, 0);
-	$pdf->Cell(20, 8,$productos2['CarnetEstudiante'], 0);
-	$pdf->Cell(30, 8, $productos2['NombresEstudiante'], 0);
-	$pdf->Cell(30, 8, $productos2['ApellidosEstudiante'], 0);
-	$pdf->Cell(30, 8, $productos2['CedulaEstudiante'], 0);
-    $pdf->Cell(50, 8, $productos2['CorreoEstudiante'], 0);
-   	$pdf->Cell(20, 8, $productos2['CelularEstudiante'], 0);
-   	$pdf->Cell(20, 8, $productos2['TelefonoEstudiante'], 0);
-   	$pdf->Cell(100, 8, $productos2['DireccionEstudiante'], 0);
+	$pdf->Cell(20, 8,$productos2['carnet'], 0);
+	$pdf->Cell(30, 8, $productos2['Nombre'], 0);
+	$pdf->Cell(30, 8, $productos2['Apellido'], 0);
+	$pdf->Cell(30, 8, $productos2['Cedula'], 0);
+    $pdf->Cell(50, 8, $productos2['Correo'], 0);
+   	$pdf->Cell(20, 8, $productos2['Celular'], 0);
+   	$pdf->Cell(20, 8, $productos2['Telefono'], 0);
+   	$pdf->Cell(100, 8, $productos2['Direccion'], 0);
    	$pdf->Cell(20, 8, $productos2['Estado'], 0);
 	$pdf->Ln(5);
 }

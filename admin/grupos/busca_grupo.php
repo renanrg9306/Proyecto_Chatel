@@ -3,7 +3,8 @@ include('../conex.php');
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 $dato = $_POST['dato'];
 
-$registro = mysqli_query($conex, "SELECT idGrupo, NombreGrupo, NumeroGrupo, CONCAT(NombresProfesor, ' ', ApellidosProfesor) AS Docente FROM grupo INNER JOIN profesor ON grupo.idProfesor = profesor.idprofesor WHERE NombreGrupo LIKE '%$dato%' ORDER BY idGrupo ASC");
+$registro = mysqli_query($conex, "SELECT G.idGrupo, G.NombreGrupo, G.NumeroGrupo, CONCAT(P.Nombre, ' ', P.Apellido) AS Docente FROM grupo AS G INNER JOIN profesor AS Pro ON G.idProfesor = Pro.idprofesor
+INNER JOIN persona AS P ON P.idPersona = Pro.idPersona WHERE G.NombreGrupo LIKE '%$dato%' ORDER BY G.idGrupo ASC");
        echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>
                           <th width="40%">Numero de Grupo</th>

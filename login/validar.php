@@ -11,7 +11,7 @@
 
 			//	$numero = srand((double)microtime()*1000000);
 
-				$log = mysqli_query($conexion,"SELECT * FROM usuarios WHERE NombreUsuario= '$usuario'  AND ContUsuario='$pw'");
+				$log = mysqli_query($conexion,"SELECT * FROM usuarios As U INNER JOIN persona as P ON P.idPersona = U.idPersona WHERE NombreUsuario= '$usuario'  AND ContUsuario='$pw'");
 				if (mysqli_num_rows($log)>0) {
 					$row = mysqli_fetch_array($log);
 

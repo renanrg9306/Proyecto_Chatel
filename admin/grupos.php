@@ -274,7 +274,7 @@ include ('includes/perfil.php');
                                             <?php
                                                 include 'conex.php';
                                                 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
-                                                $query = mysqli_query($conex,"SELECT idProfesor, CONCAT(NombresProfesor,' ',ApellidosProfesor) AS Docente FROM profesor");
+                                                $query = mysqli_query($conex,"SELECT Pro.idProfesor, CONCAT(P.Nombre,' ',P.Apellido) AS Docente FROM profesor AS Pro INNER JOIN persona AS P ON Pro.idPersona = P.idPersona");
                                                     while($valores = mysqli_fetch_array($query)){
                                                         echo "<option value='$valores[idProfesor]'>$valores[Docente]</option>";
                                                      }

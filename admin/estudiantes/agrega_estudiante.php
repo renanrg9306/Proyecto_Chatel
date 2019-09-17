@@ -17,26 +17,41 @@ $estado = isset($_POST['estado']) ? $_POST['estado']:'';
 $grupo = isset($_POST['grupo']) ? $_POST['grupo']:'';
 $foto = "images/fotos_perfil/perfil.jpg";
 
+
+
 //$T3 = isset($_POST['T3']) ? $_POST['T3'] : NULL;
 
 switch($proceso){
-	case 'Registro': mysqli_query($conex, "INSERT INTO estudiantes (CarnetEstudiante, NombresEstudiante, ApellidosEstudiante, CedulaEstudiante, CorreoEstudiante, CelularEstudiante, TelefonoEstudiante, DireccionEstudiante, Estado, idGrupo, Foto) VALUES('$carnet','$nombre','$apellido','$cedula','$correo','$celular','$telefono','$direccion','$estado', '$grupo', '$foto')");
-
-          $consulta=mysqli_query($conex, "SELECT idEstudiantes from estudiantes where CarnetEstudiante = '$carnet' and CorreoEstudiante = '$correo'");              
-                           while($filas=mysqli_fetch_array($consulta)){
-                                 $codigo_estudiante=$filas['idEstudiantes'];                           
-                 }
-     mysqli_query($conex, "INSERT INTO usuarios (NombreUsuario, ContUsuario, idNiveles, Codigo) VALUES('$correo','$cedula','3','$codigo_estudiante')");
-	
+  case 'Registro': 
+    if(mysqli_query($conex, "INSERT INTO persona (Nombre, Apellido, Cedula, Correo, Celular, Telefono, Direccion, Estado)
+    VALUES('$nombre','$apellido','$cedula','$correo','$celular','$telefono','$direccion','$estado')"))
+   {
+        $idpersona = mysqli_insert_id($conex);
+        mysqli_query($conex, "INSERT INTO estudiantes (idPersona,idGrupo,carnet) VALUES('$idpersona','$grupo','$carnet')");
+   }
+   else {
+     ECHO "FALLADO";
+   }
+   
   break;
 
-	case 'Edicion': mysqli_query($conex, "UPDATE estudiantes SET CarnetEstudiante = '$carnet', NombresEstudiante = '$nombre', ApellidosEstudiante = '$apellido', CedulaEstudiante = '$cedula', CorreoEstudiante = '$correo', CelularEstudiante = '$celular', TelefonoEstudiante = '$telefono', DireccionEstudiante = '$direccion', Estado = '$estado' , idGrupo = '$grupo' where idEstudiantes = '$id'");
-
-  mysqli_query($conex, "UPDATE usuarios SET NombreUsuario = '$correo', ContUsuario = '$cedula' where Codigo = '$id'");
+  case 'Edicion': 
+  if(mysqli_query($conex, "UPDATE persona SET 
+  Nombre = '$nombre', Apellido = '$apellido', Cedula = '$cedula', Correo = '$correo', Celular = '$celular', Telefono = '$telefono', Direccion = '$direccion', Estado = '$estado' where idPersona = '$id' ")
+  ){
+    
+    mysqli_query($conex, "UPDATE estudiantes SET idgrupo = '$grupo', carnet = '$carnet' where idPersona = '$id'");
+  }
+  else {
+    echo "fallado";
+  }
+  
+  
 
 	break;
    }
-    $registro = mysqli_query($conex, "SELECT * FROM estudiantes ORDER BY idEstudiantes ASC");
+    $registro = mysqli_query($conex, "SELECT ES.idEstudiantes,P.idPersona,ES.carnet,P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,P.Estado,G.idGrupo FROM persona AS P INNER JOIN estudiantes AS ES ON P.idPersona = ES.idPersona INNER JOIN grupo as G ON ES.idGrupo = G.idGrupo
+    ORDER BY ES.idEstudiantes ASC");
 
     echo '<table class="table table-striped table-condensed table-hover">
         	<tr>
@@ -54,19 +69,19 @@ switch($proceso){
             </tr>';
 	while($registro2 = mysqli_fetch_array($registro)){
 		echo '<tr>
-				         <td>'.$registro2['CarnetEstudiante'].'</td>
-                  <td>'.$registro2['NombresEstudiante'].'</td>
-                  <td>'.$registro2['ApellidosEstudiante'].'</td>
-                  <td>'.$registro2['CedulaEstudiante'].'</td>
-                   <td>'.$registro2['CorreoEstudiante'].'</td>
-                  <td>'.$registro2['CelularEstudiante'].'</td>
-                  <td>'.$registro2['TelefonoEstudiante'].'</td>
-                  <td>'.$registro2['DireccionEstudiante'].'</td>
+				         <td>'.$registro2['carnet'].'</td>
+                  <td>'.$registro2['Nombre'].'</td>
+                  <td>'.$registro2['Apellido'].'</td>
+                  <td>'.$registro2['Cedula'].'</td>
+                   <td>'.$registro2['Correo'].'</td>
+                  <td>'.$registro2['Celular'].'</td>
+                  <td>'.$registro2['Telefono'].'</td>
+                  <td>'.$registro2['Direccion'].'</td>
                   <td>'.$registro2['Estado'].'</td>
                    <td>'.$registro2['idGrupo'].'</td>
-                   <td> <a href="javascript:editarRegistro('.$registro2['idEstudiantes'].');">
+                   <td> <a href="javascript:editarRegistro('.$registro2['idPersona'].');">
                   <img src="../images/edita.jpg" width="25" height="25" alt="delete" title="Editar" /></a>
-                  <a href="javascript:eliminarRegistro('.$registro2['idEstudiantes'].');">
+                  <a href="javascript:eliminarRegistro('.$registro2['idPersona'].');">
                   <img src="../images/elimina.png" width="25" height="25" alt="delete" title="Eliminar" /></a>
                   </td>
 				</tr>';

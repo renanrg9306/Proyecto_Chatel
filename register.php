@@ -120,8 +120,8 @@
     require_once "model/crud.php";
     require_once "controller/controller.php";
 
-  $registro = MvcController();
-  $registro => RegistroUsuarioController();
+  $registro = new  MvcController();
+  $registro -> RegistroUsuarioController();
 
 ?>
 

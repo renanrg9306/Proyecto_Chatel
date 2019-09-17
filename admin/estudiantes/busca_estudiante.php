@@ -4,7 +4,8 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 $dato = $_POST['dato']; 
 
 
-$registro = mysqli_query($conex, "SELECT * FROM estudiantes WHERE NombresEstudiante LIKE '%$dato%' ORDER BY idEstudiantes ASC");
+$registro = mysqli_query($conex, "SELECT ES.idEstudiantes,P.idPersona,P.Nombre, P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,CASE WHEN P.Estado = 1 THEN 'Activo'ELSE 'Inactivo' END AS Estado, G.NombreGrupo,ES.carnet FROM persona AS P INNER JOIN estudiantes AS ES ON P.idPersona = ES.idPersona INNER JOIN grupo AS G ON G.idGrupo = Es.idGrupo
+WHERE P.Nombre LIKE '%$dato%' ORDER BY ES.idEstudiantes ASC");
        echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>
                        <th width="10%">Carnet</th>
@@ -22,19 +23,19 @@ $registro = mysqli_query($conex, "SELECT * FROM estudiantes WHERE NombresEstudia
       if(mysqli_num_rows($registro)>0){
 	     while($registro2 = mysqli_fetch_array($registro)){
 		      echo '<tr>
-				         <td>'.$registro2['CarnetEstudiante'].'</td>
-                  <td>'.$registro2['NombresEstudiante'].'</td>
-                  <td>'.$registro2['ApellidosEstudiante'].'</td>
-                  <td>'.$registro2['CedulaEstudiante'].'</td>
-                   <td>'.$registro2['CorreoEstudiante'].'</td>
-                  <td>'.$registro2['CelularEstudiante'].'</td>
-                  <td>'.$registro2['TelefonoEstudiante'].'</td>
-                  <td>'.$registro2['DireccionEstudiante'].'</td>
+				         <td>'.$registro2['carnet'].'</td>
+                  <td>'.$registro2['Nombre'].'</td>
+                  <td>'.$registro2['Apellido'].'</td>
+                  <td>'.$registro2['Cedula'].'</td>
+                   <td>'.$registro2['Correo'].'</td>
+                  <td>'.$registro2['Celular'].'</td>
+                  <td>'.$registro2['Telefono'].'</td>
+                  <td>'.$registro2['Direccion'].'</td>
                   <td>'.$registro2['Estado'].'</td>
-                    <td>'.$registro2['idGrupo'].'</td>
-                  <td> <a href="javascript:editarRegistro('.$registro2['idEstudiantes'].');">
+                    <td>'.$registro2['NombreGrupo'].'</td>
+                  <td> <a href="javascript:editarRegistro('.$registro2['idPersona'].');">
                   <img src="../images/edita.jpg" width="25" height="25" alt="delete" title="Editar" /></a>
-                  <a href="javascript:eliminarRegistro('.$registro2['idEstudiantes'].');">
+                  <a href="javascript:eliminarRegistro('.$registro2['idPersona'].');">
                   <img src="../images/elimina.png" width="25" height="25" alt="delete" title="Eliminar" /></a>
                   </td>
 			        	</tr>';

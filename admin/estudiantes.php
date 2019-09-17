@@ -281,8 +281,9 @@ include ('includes/perfil.php');
             <form id="formulario" class="form-group" onsubmit="return agregarRegistro();">
             <div class="modal-body">
 
-            <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;"/>
+            <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly"/>
 
+           
                  <div class="form-group row"> <label for="codigo" class="col-md-2 control-label">Proceso:</label>
 				<div class="col-md-10"><input type="text" readonly class="form-control-plaintext" required readonly id="pro" name="pro"/></div>
 			   </div> 

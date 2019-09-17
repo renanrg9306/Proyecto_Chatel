@@ -3,7 +3,10 @@
     class Datos{
 
         public function RegistroUsuarioModel($DatosModel,$Tabla){
-            $stmt = Conexion::conectar()->prepare("");
+            if($Tabla == "Profesor"){
+                $stmt = Conexion::conectar()->prepare("");
+            }
+            
         }
     }
 
