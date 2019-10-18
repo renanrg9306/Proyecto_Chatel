@@ -11,17 +11,18 @@
 
 			//	$numero = srand((double)microtime()*1000000);
 
-				$log = mysqli_query($conexion,"SELECT * FROM usuarios As U INNER JOIN persona as P ON P.idPersona = U.idPersona WHERE NombreUsuario= '$usuario'  AND ContUsuario='$pw'");
+				$log = mysqli_query($conexion,"SELECT U.idUsuario,U.idPersona, U.NombreUsuario,U.ContUsuario,U.idNivel FROM usuarios As U INNER JOIN persona as P ON P.idPersona = U.idPersona WHERE U.NombreUsuario= '$usuario'  AND U.ContUsuario='$pw'");
 				if (mysqli_num_rows($log)>0) {
 					$row = mysqli_fetch_array($log);
 
 					$_SESSION["NombreUsuario"] = $row['NombreUsuario']; 
-				  	$_SESSION["idNiveles"] = $row['idNiveles']; 
-				  	$_SESSION["Codigo"] = $row['Codigo']; 
-				  	if ($_SESSION["idNiveles"] == 1) {
+					  $_SESSION["idNivel"] = $row['idNivel']; 
+					  $_SESSION["idUsuario"] = $row['idUsuario'];
+					  $_SESSION["idPersona"] = $row['idPersona'];
+				  	if ($_SESSION["idNivel"] == 1) {
 				  		echo '<script> window.location="../admin/paneladmin.php"; </script>';
 				  	}
-					  	  elseif ($_SESSION["idNiveles"] == 2) {
+					  	  elseif ($_SESSION["idNivel"] == 2) {
 					  	 	echo '<script> window.location="../profesor/profesor.php"; </script>';
 					  	 }
 

@@ -6,7 +6,7 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNiveles"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){
@@ -70,6 +70,16 @@ if(isset($_SESSION['NombreUsuario'])) {
         </button>
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuario.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuario</span>
+                    </a>
+                </li>
+
+
+
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
@@ -90,13 +100,8 @@ if(isset($_SESSION['NombreUsuario'])) {
                         <span class="nav-link-text">Profesores</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+             
+              <!--   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -107,7 +112,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>

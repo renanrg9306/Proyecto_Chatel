@@ -14,7 +14,7 @@ $celular = isset($_POST['celular']) ? $_POST['celular']:'';
 $telefono = isset($_POST['telefono']) ? $_POST['telefono']:'';
 $direccion = isset($_POST['direccion']) ? $_POST['direccion']:'';
 $estado = isset($_POST['estado']) ? $_POST['estado']:'';
-$grupo = isset($_POST['grupo']) ? $_POST['grupo']:'';
+$idgrupo = isset($_POST['idgrupo']) ? $_POST['idgrupo']:'';
 $foto = "images/fotos_perfil/perfil.jpg";
 
 
@@ -27,7 +27,14 @@ switch($proceso){
     VALUES('$nombre','$apellido','$cedula','$correo','$celular','$telefono','$direccion','$estado')"))
    {
         $idpersona = mysqli_insert_id($conex);
-        mysqli_query($conex, "INSERT INTO estudiantes (idPersona,idGrupo,carnet) VALUES('$idpersona','$grupo','$carnet')");
+        if(mysqli_query($conex, "INSERT INTO estudiantes (idPersona,idGrupo,carnet) VALUES('$idpersona','$idgrupo','$carnet')"))
+        {
+          $ContUsuario = strrev($nombre);
+          mysqli_query($conex,"INSERT INTO usuarios (idPersona,idNivel,NombreUsuario,ContUsuario,Foto) VALUES('$idpersona','$idgrupo','$correo','$ContUsuario','$foto')");
+        }
+        else {
+          echo "FALLADO";
+        }
    }
    else {
      ECHO "FALLADO";

@@ -4,13 +4,15 @@ include 'conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 1) {
+     if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
-           $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
+           $consulta=mysqli_query($conex, "SELECT US.Foto, CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario from usuarios AS US INNER JOIN persona AS P on
+           US.idPersona = P.idPersona where US.idUsuario = '$codigo'");                  
              while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto'];                           
+                        $foto=$filas['Foto']; 
+                                                  
                 }
          
       ?>
@@ -19,14 +21,14 @@ if(isset($_SESSION['NombreUsuario'])) {
           $profesor=mysqli_query($conex,"select idProfesor, concat(NombresProfesor, ' ' ,ApellidosProfesor) as Profesor FROM profesor");
                  
             $TotalEstudiantes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM estudiantes"));// or die(mysql_error());
-        $TotalDocentes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM profesor"));
+        $TotalDocentes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM persona AS P INNER JOIN usuarios AS Us ON P.idPersona = Us.idPersona WHERE Us.idNivel = 2"));
         $TotalAsignaturas = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM asignaturas"));
         $TotalGrupos = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM grupo"));
         $TotalHorarios = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM horarios"));
         $TotalUsuarios = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM usuarios"));
-        $TotalNumeroAsignaciones = mysqli_num_rows(mysqli_query($conex,"SELECT * FROM numeros_asignaciones"));
+  /*       $TotalNumeroAsignaciones = mysqli_num_rows(mysqli_query($conex,"SELECT * FROM numeros_asignaciones")); */
          $TotalUsuarios = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM usuarios"));
-        $Totalasignaciones = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM asignaciones"));
+        /* $Totalasignaciones = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM asignaciones")); */
         ?>
 
 
@@ -83,6 +85,14 @@ include ('includes/perfil.php');
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuario.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuarios</span>
+                    </a>
+                </li>
+
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
@@ -111,16 +121,11 @@ include ('includes/perfil.php');
                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Numeros de Asignaciones</span>
+                        <span class="nav-link-text">Unidades</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+              
+                <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -131,7 +136,7 @@ include ('includes/perfil.php');
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>
@@ -239,7 +244,7 @@ include ('includes/perfil.php');
                     </div>
                     <div class="panel-body">
                         <h4 class="media-heading">Asignaciones</h4>
-                       <p>Total de Asignaciones: <span class="label label-danger pull-right"> <?php echo $Totalasignaciones ?></span></p>
+                       <p>Total de Asignaciones: <span class="label label-danger pull-right"> <!-- <?php echo $Totalasignaciones ?> --></span></p>
                       <a href="asignaciones.php" class="btn btn-success"><i class="fa fa-mail-forward"></i>  Entrar</a>
                     </div>
                 </div>
@@ -269,7 +274,7 @@ include ('includes/perfil.php');
                     </div>
                     <div class="panel-body">
                         <h4 class="media-heading">Numeros Asignaciones</h4>
-                         <p>Total de Asignaciones: <span class="label label-danger pull-right"><?php echo $TotalNumeroAsignaciones ?></span></p>
+                         <p>Total de Asignaciones: <span class="label label-danger pull-right"><!-- <?php echo $TotalNumeroAsignaciones ?> --></span></p>
                        <a href="numero_asignaciones.php" class="btn btn-success"><i class="fa fa-mail-forward"></i>  Entrar</a>
                     </div>
                 </div>

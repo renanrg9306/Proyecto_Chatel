@@ -4,7 +4,7 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 $id = $_POST['id'];
 
-mysqli_query($conex, "DELETE FROM  WHERE idPersona = '$id'");
+mysqli_query($conex, "DELETE FROM persona WHERE idPersona = '$id'");
 
 $registro = mysqli_query($conex, "SELECT P.idPersona, P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,P.Estado FROM persona AS P
 INNER JOIN usuarios as Us ON P.idPersona = Us.idPersona ORDER BY idPersona ASC");

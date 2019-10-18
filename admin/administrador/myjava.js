@@ -4,28 +4,28 @@ $(function(){
 		$('#formulario')[0].reset();
 		$('#pro').val('Registro');
 		$('#edi').hide();
-		$('#reg').show();
+		$('#reg1').show();
 		$('#registra-datos').modal({
 			show:true,
 			backdrop:'static'
 		});
 	});	
-	$('#bs-prod').on('keyup',function(){
-		var dato = $('#bs-prod').val();
-		var url = 'numeros_asignaciones/busca_numeroA.php';
-		$.ajax({
-		type:'POST',
-		url:url,
-		data:'dato='+dato,
-		success: function(datos){
-			$('#agrega-registros').html(datos);
-		}
-	});
-	return false;
-	});	
+        $('#bs-prod').on('keyup',function(){
+            var dato = $('#bs-prod').val();
+            var url = 'administrador/busca_admin.php';
+            $.ajax({
+            type:'POST',
+            url:url,
+            data:'dato='+dato,
+            success: function(datos){
+                $('#agrega-registros').html(datos);
+            }
+        });
+        return false;
+        });	
 });
 function agregarRegistro(){
-	var url = 'numeros_asignaciones/agrega_numeroA.php';
+	var url = 'administrador/agrega_admin.php';
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -46,7 +46,7 @@ function agregarRegistro(){
 	return false;
 }
 function eliminarRegistro(id){
-	var url = 'numeros_asignaciones/elimina_numeroA.php';
+	var url = 'administrador/elimina_admin.php';
 	var pregunta = confirm('¿Esta seguro de eliminar este Registro?');
 	if(pregunta==true){
 		$.ajax({
@@ -65,18 +65,26 @@ function eliminarRegistro(id){
 }
 function editarRegistro(id){
 	$('#formulario')[0].reset();
-	var url = 'numeros_asignaciones/edita_numeroA.php';
+	var url = 'administrador/edita_admin.php';
 		$.ajax({
 		type:'POST',
 		url:url,
 		data:'id='+id,
 		success: function(valores){
 				var datos = eval(valores);
+              //  parseSuccess.call(this [valores]);
 				$('#reg').hide();
-				$('#edi').show();
+				$('#edi1').show();
 				$('#pro').val('Edicion');
 				$('#id-registro').val(id);
-				$('#Unidad').val(datos[0]);
+				$('#nombre').val(datos[0]);
+				$('#apellido').val(datos[1]);
+				$('#cedula').val(datos[2]);
+				$('#correo').val(datos[3]);
+				$('#celular').val(datos[4]);
+				$('#telefono').val(datos[5]);
+				$('#direccion').val(datos[6]);
+				$('#estado').val(datos[7]);
 				$('#registra-datos').modal({
 					show:true,
 					backdrop:'static'
@@ -88,16 +96,17 @@ function editarRegistro(id){
 }
 
 function pagination(partida){
-	var url = 'numeros_asignaciones/paginar_numeroA.php';
+	var url = 'administrador/paginar_admin.php';
 	$.ajax({
 		type:'POST',
-		url:url,
-		data:'partida='+partida,
-		success:function(data){
+		url:url,     
+		data:'partida='+partida,             
+	   success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
 			$('#pagination').html(array[1]);
 		}
+           
 	});
 	return false;
-}
+ }

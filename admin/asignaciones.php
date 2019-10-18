@@ -3,10 +3,11 @@ session_start();
 include 'conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
-if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 1) {
+if(isset($_SESSION['idPersona'])) {
+     if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
+           $idpersona = $_SESSION['idPersona'];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){
@@ -19,13 +20,13 @@ if(isset($_SESSION['NombreUsuario'])) {
          // $consulta1="select idDocente, concat(NombresDocente, ' ' ,ApellidosDocente) as Docentes FROM docentes";
           $profesor=mysqli_query($conex,"select idProfesor, concat(NombresProfesor, ' ' ,ApellidosProfesor) as Profesor FROM profesor");
           //$consulta2="select idAsignatura, NombreAsignatura from asignaturas";
-          $asignatura=mysqli_query($conex,"select idAsignatura, NombreAsignatura from asignaturas");
+       /*    $asignatura=mysqli_query($conex,"select idAsignatura, NombreAsignatura from asignaturas"); */
           //$consulta3="select idGrupo, NumeroGrupo from grupos";
-          $grupo=mysqli_query($conex,"select idGrupo, NumeroGrupo from grupo");
+          $grupo=mysqli_query($conex,"select idGrupo, NombreGrupo from grupo");
           //$consulta4="select idTurno, NombreTurno from turnos";
-          $turno=mysqli_query($conex,"select idTurno, NombreTurno from turnos");
+          $unidad=mysqli_query($conex,"select idUnidad,Unidad from unidad");
           //$consulta5="select idHorario, NombreHorario from horarios";
-          $horario=mysqli_query($conex,"select idHorario, NombreHorario from horarios");
+         /*  $horario=mysqli_query($conex,"select idHorario, NombreHorario from horarios"); */
 
          
         ?>
@@ -89,6 +90,14 @@ include ('includes/perfil.php');
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuario.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuario</span>
+                    </a>
+                </li>
+
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
@@ -117,16 +126,11 @@ include ('includes/perfil.php');
                  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Numeros de Asignaciones</span>
+                        <span class="nav-link-text">Unidades</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+               
+                <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -137,7 +141,7 @@ include ('includes/perfil.php');
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>
@@ -273,6 +277,8 @@ include('conex.php');
                                         <div class="modal-body">
 
                                             <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
+                                            <input type="text" class="form-control" required readonly id="idPersona" name="idPersona" readonly="readonly" value=<?php echo $idpersona?> style="visibility:true; height:5px;" />
+                                            
 
                                             <div class="form-group row"> <label for="codigo" class="col-md-3 control-label">Proceso:</label>
                                                 <div class="col-md-9"><input type="text" class="form-control-plaintext" required readonly id="pro" name="pro" /></div>
@@ -281,28 +287,19 @@ include('conex.php');
                                             <div class="form-group row"> <label for="carnet" class="col-md-3 control-label">Descripcion:</label>
                                                 <div class="col-md-9"><input type="text" class="form-control" id="nombre" name="nombre" required maxlength="50"></div>
                                             </div>
-                                            <div class="form-group row"> <label for="carrera" class="col-md-3 control-label">Profesor:</label>
+
+                                            <div class="form-group row"> <label for="year" class="col-md-3 control-label">Unidad:</label>
                                                 <div class="col-md-9">
-                                                    <select class="form-control" id="profesor" name="profesor">
+                                                    <select class="form-control" id="idUnidad" name="idUnidad">
                                                         <?php 
-                          while($fila=mysqli_fetch_row($profesor)){
+                          while($fila=mysqli_fetch_row($unidad)){
                           echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
                           }
                           ?>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row"> <label for="cuatrimestre" class="col-md-3 control-label">Asignatura:</label>
-                                                <div class="col-md-9">
-                                                    <select class="form-control" id="asignatura" name="asignatura">
-                                                        <?php 
-                          while($fila=mysqli_fetch_row($asignatura)){
-                          echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
-                          }
-                          ?>
-                                                    </select>
-                                                </div>
-                                            </div>
+
 
                                             <div class="form-group row"> <label for="year" class="col-md-3 control-label">Grupo:</label>
                                                 <div class="col-md-9">
@@ -316,18 +313,6 @@ include('conex.php');
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row"> <label for="year" class="col-md-3 control-label">Horario:</label>
-                                                <div class="col-md-9">
-                                                    <select class="form-control" id="horario" name="horario">
-                                                        <?php 
-                          while($fila=mysqli_fetch_row($horario)){
-                          echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
-                          }
-                          ?>
-                                                    </select>
-                                                </div>
-
-                                            </div>
                                             <div class="form-group row"> <label for="year" class="col-md-3 control-label">Estado:</label>
                                                 <div class="col-md-9">
                                                     <select class="form-control" id="estado" name="estado">
@@ -337,9 +322,9 @@ include('conex.php');
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row"> <label for="carnet" class="col-md-3 control-label">Numero:</label>
+                                           <!--  <div class="form-group row"> <label for="carnet" class="col-md-3 control-label">Numero:</label>
                                                 <div class="col-md-9"><input type="number" class="form-control" id="numero" name="numero" required maxlength="50"></div>
-                                            </div>
+                                            </div> -->
 
                                             <div id="mensaje"></div>
                                         </div>

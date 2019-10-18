@@ -4,9 +4,9 @@ include 'conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 1) {
+     if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){
@@ -78,6 +78,13 @@ include ('includes/perfil.php');
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuario.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuarios</span>
+                    </a>
+                </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
@@ -106,16 +113,11 @@ include ('includes/perfil.php');
                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Numeros de Asignaciones</span>
+                        <span class="nav-link-text">Unidades</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+               
+             <!--    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -126,7 +128,7 @@ include ('includes/perfil.php');
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>
@@ -188,7 +190,7 @@ include ('includes/perfil.php');
                   <li class="breadcrumb-item">
                     <a href="paneladmin.php">Panel Administrador</a>
                 </li>
-                <li class="breadcrumb-item active">numeros de Asignaciones&nbsp;</li>
+                <li class="breadcrumb-item active">Unidades&nbsp;</li>
         
             </ol>
         </div>
@@ -196,7 +198,7 @@ include ('includes/perfil.php');
 
         <div class="container">
             <div class="page-header">
-                <h1 class="all-tittles">Sistema Web Bases de Datos<small>/Numeros de Asignaciones</small></h1>
+                <h1 class="all-tittles">Sistema Web Bases de Datos<small>/Unidades</small></h1>
             </div>
         </div>
         <!--//////////////////////////////*************Comienzo del contenido del contenido de las unidades******///////////-->
@@ -204,7 +206,7 @@ include ('includes/perfil.php');
         <div class="card header bg-primary">
             <div class="btn-group pull-right">
             </div>
-            <center><h4><b>Administracion de Numeros de Asignacion Profesor</b></h4></center>
+            <center><h4><b>Administracion de Unidades</b></h4></center>
         </div>
         <div class="card-body">
             <div class="row">
@@ -228,7 +230,7 @@ include ('includes/perfil.php');
 		   <h4 style="font-weight: bold;"> 
     <?php
 include('conex.php');
-    $numeroRegistros = mysqli_num_rows(mysqli_query($conex,"SELECT * FROM numeros_asignaciones"));
+    $numeroRegistros = mysqli_num_rows(mysqli_query($conex,"SELECT * FROM Unidad"));
     echo "Registros Totales: $numeroRegistros";
         ?>
         </h4>
@@ -254,10 +256,10 @@ include('conex.php');
 				<div class="col-md-9"><input type="text" class="form-control-plaintext" required readonly id="pro" name="pro"  /></div>
 			   </div> <br>
 
-               <div class="form-group row"> <label for="carnet" class="col-md-3 control-label">Numero:</label>
-				<div class="col-md-9"><input type="text" class="form-control" id="numero" name="numero" required maxlength="50"></div>
+               <div class="form-group row"> <label for="carnet" class="col-md-3 control-label">Titulo Unidad:</label>
+				<div class="col-md-9"><input type="text" class="form-control" id="Unidad" name="Unidad" required maxlength="50"></div>
 			   </div> <br>    
-                     <div class="form-group row"> <label for="carrera" class="col-md-3 control-label">Docente:</label>
+                     <!-- <div class="form-group row"> <label for="carrera" class="col-md-3 control-label">Docente:</label>
                          <div class="col-md-9">
                        <select class="form-control" id="profesor" name="profesor">
                      <?php 
@@ -269,7 +271,7 @@ include('conex.php');
                        </div>
                     </div> <br>
                   
-                    
+                     -->
                 
 
                  <div id="mensaje"></div>           

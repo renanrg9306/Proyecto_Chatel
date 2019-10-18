@@ -4,9 +4,9 @@ include 'conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 1) {
+     if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){
@@ -75,6 +75,14 @@ include ('includes/perfil.php');
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuario.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuarios</span>
+                    </a>
+                </li>
+
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
@@ -103,16 +111,11 @@ include ('includes/perfil.php');
                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Numeros de Asignaciones</span>
+                        <span class="nav-link-text">Unidades</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+              
+             <!--    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -123,7 +126,7 @@ include ('includes/perfil.php');
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>

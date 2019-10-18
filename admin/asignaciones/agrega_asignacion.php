@@ -4,26 +4,24 @@ include('../conex.php');
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 $id = $_POST['id-registro'];
 $proceso = $_POST['pro'];
-$nombre = $_POST['nombre'];
-$profesor = $_POST['profesor'];
-$asignatura = $_POST['asignatura'];
-$grupo = $_POST['grupo'];
-$horario = $_POST['horario'];
+$idgrupo = $_POST['grupo'];
+$idunidad = $_POST['idUnidad'];
+$idAdmin = $_POST['idPersona'];
+$descripcion = $_POST['nombre'];
 $estado = $_POST['estado'];
-$numero = $_POST['numero'];
 
 switch($proceso){
-	case 'Registro': mysqli_query($conex,"INSERT INTO asignaciones (Descripcion, idProfesor, idAsignatura, idGrupo, idHorario, Estado, NumeroAsignacion) VALUES('$nombre','$profesor','$asignatura','$grupo','$horario','$estado','$numero')");
+	case 'Registro': mysqli_query($conex,"INSERT INTO asignaciones (idAdmin,idGrupo,idUnidad,Descripcion,Estado) VALUES('$idAdmin','$idgrupo','$idunidad','$descripcion','$estado')");
 	break;
-	case 'Edicion': mysqli_query($conex,"UPDATE asignaciones SET Descripcion = '$nombre', idAsignatura = '$asignatura',idGrupo = '$grupo',idHorario = '$horario' ,Estado = '$estado',NumeroAsignacion = '$numero' where idAsignacion = '$id'");
+	case 'Edicion': mysqli_query($conex,"UPDATE asignaciones SET Descripcion = '$nombre', idGrupo = '$grupo', idUnidad = '$unidad', Estado = '$estado', where idAsignacion = '$id'");
 	break;
    }
-    $registro = mysqli_query($conex,"SELECT  asignaciones.idAsignacion AS id, asignaciones.Descripcion AS Asignacion,concat(profesor.NombresProfesor,' ',profesor.ApellidosProfesor) as Profesor, 
-             asignaturas.NombreAsignatura AS Asignatura, grupo.NumeroGrupo AS Grupo, horarios.NombreHorario AS Horario, asignaciones.Estado AS Estado, asignaciones.NumeroAsignacion AS NumeroA
-FROM asignaciones INNER JOIN profesor ON asignaciones.idProfesor = profesor.idProfesor 
-                        INNER JOIN asignaturas ON asignaciones.idAsignatura = asignaturas.idAsignatura 
-            INNER JOIN grupo ON asignaciones.idGrupo = grupo.idGrupo             
-            INNER JOIN horarios ON asignaciones.idHorario = horarios.idHorario ORDER BY asignaciones.idAsignacion ASC");
+    $registro = mysqli_query($conex,"SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Profesor,Asing.NombreAsignatura,Asi.Descripcion AS TituloAsignacion,Uni.Unidad,Gr.NombreGrupo,Ho.NombreHorario,Asi.Estado FROM asignaciones AS Asi INNER JOIN grupo AS Gr ON Gr.idGrupo = Asi.idGrupo 
+    INNER JOIN persona AS P ON P.idPersona = Gr.idProfesor
+    INNER JOIN asignaturas AS Asing ON Gr.idAsignatura = Asing.idAsignatura 
+    INNER JOIN unidad as Uni ON Asi.idUnidad = Uni.idUnidad 
+    INNER JOIN horarios AS Ho ON Gr.idHorario = Ho.idHorario 
+    INNER JOIN unidad AS Un ON Asi.idUnidad = Un.idUnidad ORDER BY asi.idAsignacion ASC");
 
     echo '<table class="table table-striped table-condensed table-hover">
         	 <tr>
@@ -33,7 +31,6 @@ FROM asignaciones INNER JOIN profesor ON asignaciones.idProfesor = profesor.idPr
                         <th width="7%">Grupo</th>       
                         <th width="15%">Horario</th>
                         <th width="10%">Estado</th>
-                        <th width="10%">Numero</th>
                         <th width="10%">Opciones</th>
                    </tr>';
 	while($registro2 = mysqli_fetch_array($registro)){

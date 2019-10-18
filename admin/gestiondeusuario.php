@@ -7,18 +7,20 @@ if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
            $codigo = $_SESSION["idUsuario"];
-
-           $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
+ ?>
+          <?php
+           $consulta=mysqli_query($conex, "SELECT US.Foto, CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario from usuarios AS US INNER JOIN persona AS P on
+            US.idPersona = P.idPersona where US.NombreUsuario = '$user'");                  
              while($filas=mysqli_fetch_array($consulta)){
                         $foto=$filas['Foto'];                           
                 }
          
          
-      ?>
+            ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
     <meta charset="utf-8">
@@ -47,21 +49,23 @@ if(isset($_SESSION['NombreUsuario'])) {
     <script src="../js/jquery.js"></script>
     <script src="js/back-to-top.js"></script>
     <!--<script src="../js/bootstrap.min.js"></script>-->
-    <script type="text/javascript" src="profesores/myjava.js"></script>
+    <script type="text/javascript" src="usuarios/myjava.js"></script>
 
    <!-- <link href="css/sweetalert.css" rel="stylesheet">
     <script type="text/javascript" src="/js/functions.js"></script>
     <script src="js/sweetalert.min.js"></script>-->
 
+
 </head>
-
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
-
+  <!-- Navigation-->
+ <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+ 
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <img src="../images/u.png" width="30" class="d-inline-block alingn-center" alt="Logo UNI">
+             <img src="../images/u.png" width="30" class="d-inline-block alingn-center" alt="Logo UNI">
         <a class="navbar-brand" href="#">&nbsp; &nbsp; Bases de Datos</a>
-  <?php
+           
+            <?php
          
 include ('includes/perfil.php');
  ?>
@@ -73,19 +77,20 @@ include ('includes/perfil.php');
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
+                    <a class="nav-link" href="gestiondeusuario.php">
                         <i class="fa fa-fw fa-clone"></i>
                         <span class="nav-link-text">Gestión de Usuarios</span>
                     </a>
                 </li>
 
 
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
-                    <a class="nav-link" href="administrador.php">
+                  <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
                         <span class="nav-link-text">Administrador</span>
                     </a>
-
+                    
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alumnos">
                     <a class="nav-link" href="estudiantes.php">
@@ -105,14 +110,14 @@ include ('includes/perfil.php');
                         <span class="nav-link-text">Asignaciones</span>
                     </a>
                 </li>
-                   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Unidades</span>
+                        <span class="nav-link-text">Numeros de Asignaciones</span>
                     </a>
                 </li>
                
-                <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+               <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -125,30 +130,29 @@ include ('includes/perfil.php');
                     </a>
                 </li> -->
                   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
-                    <a class="nav-link" href="grupos.php">
-                        <i class="fa fa-fw fa-clipboard"></i>
-                        <span class="nav-link-text">Grupos</span>
-                    </a>
-                </li>
-                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="horarios.php">
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Horarios</span>
                     </a>
                 </li>
+                  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
+                    <a class="nav-link" href="grupos.php">
+                        <i class="fa fa-fw fa-clipboard"></i>
+                        <span class="nav-link-text">Grupos</span>
+                    </a>
+                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
                     <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-file-pdf-o"></i>
+                       <i class="fa fa-fw fa-file-pdf-o"></i>
                         <span class="nav-link-text">Reportes</span>
                     </a>
                 </li>
-                   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
                     <a class="nav-link" href="cambiar_foto.php">
                        <i class="fa fa-fw fa-file-pdf-o"></i>
                         <span class="nav-link-text">Cambiar Foto</span>
                     </a>
                 </li>
-
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Backups">
                     <a class="nav-link" href="backups.php">
@@ -164,19 +168,23 @@ include ('includes/perfil.php');
                     </a>
                 </li>
             </ul>
+  
             <ul class="navbar-nav ml-auto">
-
+                     
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="index.php">
-                        <i class="fa fa-fw fa-power-off"> </i>Salir</a>
+                 <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="index.php">
+                        <i class="fa fa-fw fa-power-off">                                 
+                        </i>___Salir</a>
                 </li>
             </ul>
+          
+            
         </div>
     </nav>
 
     <!--*************Comienzo del contenido del contenido de las unidades*******-->
     <div class="content-wrapper">
-    <div class="container-fluid">
+        <div class="container-fluid">
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -185,51 +193,56 @@ include ('includes/perfil.php');
                   <li class="breadcrumb-item">
                     <a href="paneladmin.php">Panel Administrador</a>
                 </li>
-                <li class="breadcrumb-item active">Profesor&nbsp;</li>
+                <li class="breadcrumb-item active">Gestión de Usuarios&nbsp;</li>
         
             </ol>
         </div>
 
+         <div class="" align="center">
+          <center>
+           <img class="img-responsive" src="../images/ave.jpg" width="70%" height="100%">
+           </center>
+           </div>
+    <hr>
 
         <div class="container">
             <div class="page-header">
-                <h1 class="all-tittles">Sistema Web Bases de Datos<small>/ Administración de Profesores</small></h1>
+                <h1 class="all-tittles">Sistema Web Bases de Datos<small>/ Gestión de  Usuarios</small></h1>
             </div>
-        </div>
+        </div> 
 
         <div class="container-fluid" style="margin: 50px 0;">
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <center> <img src="../images/profesor.png" alt="user" class="img-responsive center-box" style="max-width: 110px;"></center>
+                    <center> <img src="../images/hac.png" alt="user" class="img-responsive center-box" style="max-width: 110px;"></center>
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     <h5>
-                        Bienvenido a la sección donde se encuentra el listado de los Profesores, puedes desactivar la cuenta de cualquierProfesor o eliminar los datos.</h5>
+                        Bienvenido a la sección donde se encuentra el listado de los administradores, Profesores y Estudiantes puedes desactivar la cuenta de cualquier Usuario o eliminar los datos.</h5>
                 </div>
             </div>
         </div>
 
-        <div class="panel-heading">
+        <div class="card-header">
             <div class="btn-group pull-right"> </div>
             <center>
-                <h4><b>Administracion de Profesores </b></h4>
+                <h4><b>Administracion de Usuarios del Sistema </b></h4>
             </center>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid" align="center">
             <div class="row">
-                <img src="../images/busca.jpg" width="25" height="25" />
+                <img src="../images/busca.jpg" width="25" height="25"/>
                 <div class="col-md-1">
                     <b>Buscar:</b>
                 </div>
                 <div class="col-md-5">
-                    <input type="text" name="s" id="bs-prod" class="form-control" placeholder="Escribir el nombre del Profesor">
+                    <input type="text" name="s" id="bs-prod" class="form-control" placeholder="Escribir el nombre del Usuario">
                 </div>
-                <div class="col-md-5">
-                    <button id="nuevo-producto" class="btn btn-success">
-                        <i class="fa fa-fw fa-plus"></i> Nuevo Profesor</button>
-                    <a href="reportes/Reporte_Profesores.php"> <button class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Exportar Listado a PDF</button> </a>
-                </div>
+               <!--  <div class="col-md-5">
+                    <button id="nuevo-producto" class="btn btn-success"> 
+                    <i class="fa fa-fw fa-plus"></i> Nuevo Usuario</button>
+                </div> -->
                 <br>
                 <br>
                 <div class="registros" style="width:100%;" id="agrega-registros"></div>
@@ -243,33 +256,29 @@ include ('includes/perfil.php');
                         <h4 style="font-weight: bold;">
                             <?php
                                      include('conex.php');
-                                     $numeroRegistros = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM persona as P INNER JOIN usuarios as Us ON 
-                                     P.idPersona = Us.idPersona WHERE Us.idNivel = 2"));
+                                     $numeroRegistros = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM usuarios"));
                                      echo "Registros Totales: $numeroRegistros";
                                   ?>
                         </h4>
                     </center>
-                </div>
+                </div> 
 
 
                 <!-- MODAL PARA EL REGISTRO-->
                 <div class="modal fade" id="registra-datos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                         <div class="modal-content">
-                            <div class="modal-header" style="background:#0a2048; text-align: center;">
+                            <div class="modal-header" style="background:#0a2048; text-align:center">
 
                                 <h4 class="modal-title" style="color:white;" id="myModalLabel"><b>
-                                        <i class='fa fa-user-plus'></i>&nbsp;&nbsp;Profesores</b></h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;cerrar</button>
+                                        <i class='glyphicon glyphicon-lock'></i>&nbsp;&nbsp;Usuarios</b></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
-                            <form id="formulario" class="form-group" onsubmit="return agregarRegistro();">
-                                <div class="modal-body" >
+                            <form id="formulario" class="form-group"  onsubmit="return agregarRegistro();">
+                                <div class="modal-body">
 
-                         <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
+                                    <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
 
-                        <div class="form-group row"> <label for="codigo" class="col-md-2 control-label">Proceso:</label>
-                         <div class="col-sm-10"><input type="text" readonly class="form-control-plaintext" required readonly id="pro" name="pro" /></div>
-                                    </div>
                                     <div class="form-group row"> <label for="nombre" class="col-md-2 control-label">Nombres:</label>
                                         <div class="col-md-10"><input type="text" class="form-control" id="nombre" name="nombre" required maxlength="50"></div>
                                     </div>
@@ -292,23 +301,31 @@ include ('includes/perfil.php');
                                         <div class="col-sm-10">
                                             <textarea class="form-control" id="direccion" name="direccion" required="" maxlength="250"></textarea></div>
 
+
+                                    <!-- <div class="form-group row"> <label for="codigo" class="col-md-2 control-label"><b>Proceso:</b></label>
+                                        <div class="col-md-10"><input type="text" readonly class="form-control-plaintext" required readonly id="pro" name="pro"  /></div>
+                                    </div> 
+                                    <div class="form-group row"> <label for="nombre" class="col-md-2 control-label"><b>Nombre:</b></label>
+                                        <div class="col-md-10"><input type="text" class="form-control" id="nombre" name="nombre" required maxlength="50"></div>
                                     </div>
-                                    <div class="form-group row"> <label for="estado" class="col-md-2 control-label">Estado:</label>
+                                    <div class="form-group row"> <label for="pass" class="col-md-2 control-label"><b>Password:</b></label>
+                                        <div class="col-md-10"><input type="Password" class="form-control" id="pass" name="pass" required maxlength="50"></div>
+                                    </div>
+                                    <div class="form-group row"> <label for="nivel" class="col-md-2 control-label"><b>Nivel:</b></label>
                                         <div class="col-md-10">
-                                            <select class="form-control" id="estado" name="estado" required="">
-                                                <option value="1" selected="">Activo</option>
-                                                <option value="0">Inactivo</option>
+                                            <select name="nivel" class="form-control">
+                                                <option value="1">Administrador</option>
+                                                <option value="2">Docente</option>
+                                                <option value="3">Estudiante</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <br>
-
-
                                     <div id="mensaje"></div>
                                 </div>
                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-success" data-dismiss="modal"><b>Close</b></button>
-                                    <input type="submit" value="Registrar" class="btn btn-success" id="regAd" />
+                                     <button type="button" class="btn btn-success" data-dismiss="modal"><b>Close</b></button>
+                                    <input type="submit" value="Registrar" class="btn btn-success" id="reg" />
                                     <input type="submit" value="Editar" class="btn btn-warning" id="edi" />
                                 </div>
                             </form>
@@ -359,17 +376,16 @@ include ('includes/perfil.php');
         <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- Core plugin JavaScript-->
         <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-        <!--Page level plugin JavaScript
+        <!-- Page level plugin JavaScript-->
         <script src="../vendor/chart.js/Chart.min.js"></script>
         <script src="../vendor/datatables/jquery.dataTables.js"></script>
-        <script src="../vendor/datatables/dataTables.bootstrap4.js"></script>-->
+        <script src="../vendor/datatables/dataTables.bootstrap4.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="../js/sb-admin.min.js"></script>
         <!-- Custom scripts for this page-->
         <script src="../js/sb-admin-datatables.min.js"></script>
         <script src="../js/sb-admin-charts.min.js"></script>
-        <script src="../admin/js/main.js"></script>
-    </div>
+     </div>
 </body>
 
 

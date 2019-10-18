@@ -4,9 +4,9 @@ include 'conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 1) {
+     if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){
@@ -74,6 +74,15 @@ include ('includes/perfil.php');
         <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
+                    <a class="nav-link" href="gestiondeusuarios.php">
+                        <i class="fa fa-fw fa-clone"></i>
+                        <span class="nav-link-text">Gestión de Usuarios</span>
+                    </a>
+                </li>
+
+
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administrador**">
                     <a class="nav-link" href="administrador.php">
                         <i class="fa fa-fw fa-users"></i>
@@ -102,16 +111,11 @@ include ('includes/perfil.php');
                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profesores">
                     <a class="nav-link" href="numero_asignaciones.php">
                         <i class="fa fa-fw fa-user-plus"></i>
-                        <span class="nav-link-text">Numeros de Asignaciones</span>
+                        <span class="nav-link-text">Unidades</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Examenes">
-                    <a class="nav-link" href="portada.html">
-                        <i class="fa fa-fw fa-clone"></i>
-                        <span class="nav-link-text">Examenes</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
+              
+              <!--   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Laboratorios">
                     <a class="nav-link" href="portada.html">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Laboratorios</span>
@@ -122,7 +126,7 @@ include ('includes/perfil.php');
                         <i class="fa fa-fw fa-clipboard"></i>
                         <span class="nav-link-text">Pruebas</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pruebas">
                     <a class="nav-link" href="grupos.php">
                         <i class="fa fa-fw fa-clipboard"></i>
@@ -255,28 +259,59 @@ include ('includes/perfil.php');
                                     <form id="formulario" class="form-group" onsubmit="return agregarRegistro();">
                                         <div class="modal-body">
 
-                                            <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
+                                            <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:true; height:5px;" />
 
                                             <div class="form-group row"> <label for="codigo" class="col-md-4 control-label">Proceso:</label>
                                                 <div class="col-md-10"><input type="text" readonly class="form-control-plaintext" required readonly id="pro" name="pro" /></div>
                                             </div>
 
-                                            <div class="form-group row"> <label for="codigo" class="col-md-4 control-label">Numero Grupo:</label>
+                                            <!-- <div class="form-group row"> <label for="codigo" class="col-md-4 control-label">Numero Grupo:</label>
                                                 <div class="col-md-10"><input type="text" class="form-control" id="numero" name="numero" required="true" /></div>
+                                            </div> -->
+
+                                            <div class="form-group row"> <label for="grupo" class="col-md-4 control-label">Nombre Grupo:</label>
+                                                <div class="col-md-10"><input type="text" class="form-control" id="NombreGrupo" name="NombreGrupo" required="true" maxlength="300"></div>
                                             </div>
 
-                                            <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Nombre Grupo:</label>
-                                                <div class="col-md-10"><input type="text" class="form-control" id="nombre" name="nombre" required="true" maxlength="50"></div>
+                                            <div class="form-group row"> <label for="profesor" class="col-md-4 control-label">Asignatura:</label>
+                                            <div class="col-md-10"><select class="form-control" name="idAsignatura" required="true">
+                                            <?php
+                                                include 'conex.php';
+                                                $conex = mysqli_connect("localhost", "agat", "1234", "bd");
+                                                $query = mysqli_query($conex,"SELECT A.idAsignatura, NombreAsignatura FROM asignaturas AS A");
+                                                    while($valores = mysqli_fetch_array($query)){
+                                                        echo "<option value='$valores[idAsignatura]'>$valores[NombreAsignatura]</option>";
+                                                     }
+                                            ?>
+                                            </select>
+                                            
                                             </div>
+                                            </div>
+                                            
 
                                             <div class="form-group row"> <label for="profesor" class="col-md-4 control-label">Docente:</label>
                                             <div class="col-md-10"><select class="form-control" name="idProfesor" required="true">
                                             <?php
                                                 include 'conex.php';
                                                 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
-                                                $query = mysqli_query($conex,"SELECT Pro.idProfesor, CONCAT(P.Nombre,' ',P.Apellido) AS Docente FROM profesor AS Pro INNER JOIN persona AS P ON Pro.idPersona = P.idPersona");
+                                                $query = mysqli_query($conex,"SELECT P.idPersona, CONCAT(P.Nombre,' ',P.Apellido) AS Docente FROM persona AS P INNER JOIN usuarios AS Us ON P.idPersona = Us.idPersona AND Us.idNivel=2");
                                                     while($valores = mysqli_fetch_array($query)){
-                                                        echo "<option value='$valores[idProfesor]'>$valores[Docente]</option>";
+                                                        echo "<option value='$valores[idPersona]'>$valores[Docente]</option>";
+                                                     }
+                                            ?>
+                                            </select>
+                                            
+                                            </div>
+                                            </div>
+
+                                            <div class="form-group row"> <label for="profesor" class="col-md-4 control-label">Horario:</label>
+                                            <div class="col-md-10"><select class="form-control" name="idHorario" required="true">
+                                            <?php
+                                                include 'conex.php';
+                                                $conex = mysqli_connect("localhost", "agat", "1234", "bd");
+                                                $query = mysqli_query($conex,"SELECT idHorario, NombreHorario FROM horarios");
+                                                    while($valores = mysqli_fetch_array($query)){
+                                                        echo "<option value='$valores[idHorario]'>$valores[NombreHorario]</option>";
                                                      }
                                             ?>
                                             </select>

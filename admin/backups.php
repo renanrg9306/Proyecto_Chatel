@@ -6,7 +6,7 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNiveles"] == 1) {
         $user = $_SESSION['NombreUsuario'];
-           $codigo = $_SESSION["Codigo"];
+           $codigo = $_SESSION["idUsuario"];
 
            $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
              while($filas=mysqli_fetch_array($consulta)){

@@ -4,8 +4,8 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 $dato = $_POST['dato'];
 
 
-$registro = mysqli_query($conex, "SELECT P.idPersona,Pro.idProfesor, P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,P.Estado FROM persona AS P INNER JOIN profesor AS Pro
-ON P.idPersona = Pro.idPersona WHERE P.Nombre LIKE '%$dato%' ORDER BY idProfesor ASC");
+$registro = mysqli_query($conex, "SELECT P.idPersona,P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,CASE WHEN P.Estado = 1 THEN 'Activo'ELSE 'Inactivo' END AS Estado
+ FROM persona AS P INNER JOIN usuarios as Us ON P.idPersona = Us.idPersona WHERE Us.idNivel = 2 AND P.Nombre LIKE '%$dato%' ORDER BY idPersona ASC");
        echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>
                        <th width="10%">Nombres</th>
