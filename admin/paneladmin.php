@@ -6,21 +6,27 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
+            $idPersona = $_SESSION['idPersona'];
            $codigo = $_SESSION["idUsuario"];
 
-           $consulta=mysqli_query($conex, "SELECT US.Foto, CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario from usuarios AS US INNER JOIN persona AS P on
-           US.idPersona = P.idPersona where US.idUsuario = '$codigo'");                  
+           $consulta=mysqli_query($conex, "select foto from usuarios where idPersona = $idPersona");                  
+                while($filas=mysqli_fetch_array($consulta)){
+                         $foto=$filas['foto'];                           
+                 }
+
+           $consulta=mysqli_query($conex, "SELECT  CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario, P.correo from usuarios AS US INNER JOIN persona AS P on
+           US.idPersona = P.idPersona where US.idPersona = $idPersona");                  
              while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto']; 
+                        $user=$filas['correo']; 
                                                   
                 }
          
       ?>
 <?php 
         
-          $profesor=mysqli_query($conex,"select idProfesor, concat(NombresProfesor, ' ' ,ApellidosProfesor) as Profesor FROM profesor");
+        
                  
-            $TotalEstudiantes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM estudiantes"));// or die(mysql_error());
+        $TotalEstudiantes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM estudiantes"));// or die(mysql_error());
         $TotalDocentes = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM persona AS P INNER JOIN usuarios AS Us ON P.idPersona = Us.idPersona WHERE Us.idNivel = 2"));
         $TotalAsignaturas = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM asignaturas"));
         $TotalGrupos = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM grupo"));

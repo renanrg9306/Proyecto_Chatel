@@ -8,10 +8,20 @@ if(isset($_SESSION['NombreUsuario'])) {
         $user = $_SESSION['NombreUsuario'];
            $codigo = $_SESSION["idUsuario"];
 
-           $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
-             while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto'];                           
-                }
+           $idPersona = $_SESSION['idPersona'];
+
+           $consulta=mysqli_query($conex, "select foto from usuarios where idPersona = $idPersona");                  
+           while($filas=mysqli_fetch_array($consulta)){
+                    $foto=$filas['foto'];                           
+            }
+
+      $consulta=mysqli_query($conex, "SELECT  CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario, P.correo from usuarios AS US INNER JOIN persona AS P on
+      US.idPersona = P.idPersona where US.idPersona = $idPersona");                  
+        while($filas=mysqli_fetch_array($consulta)){
+                   $user=$filas['correo']; 
+                                             
+           }                 
+                
          
          
       ?>

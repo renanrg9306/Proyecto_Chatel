@@ -13,10 +13,10 @@ $estado = $_POST['estado'];
 switch($proceso){
 	case 'Registro': mysqli_query($conex,"INSERT INTO asignaciones (idAdmin,idGrupo,idUnidad,Descripcion,Estado) VALUES('$idAdmin','$idgrupo','$idunidad','$descripcion','$estado')");
 	break;
-	case 'Edicion': mysqli_query($conex,"UPDATE asignaciones SET Descripcion = '$nombre', idGrupo = '$grupo', idUnidad = '$unidad', Estado = '$estado', where idAsignacion = '$id'");
+	case 'Edicion': mysqli_query($conex,"UPDATE asignaciones SET Descripcion = '$descripcion', idGrupo = '$idgrupo', idUnidad = '$idunidad', estado = '$estado', Estado = '$estado' where idAsignacion = '$id'");
 	break;
    }
-    $registro = mysqli_query($conex,"SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Profesor,Asing.NombreAsignatura,Asi.Descripcion AS TituloAsignacion,Uni.Unidad,Gr.NombreGrupo,Ho.NombreHorario,Asi.Estado FROM asignaciones AS Asi INNER JOIN grupo AS Gr ON Gr.idGrupo = Asi.idGrupo 
+    $registro = mysqli_query($conex,"SELECT idAsignacion,CONCAT(P.Nombre,' ',P.Apellido) AS Profesor,Asing.NombreAsignatura,Asi.Descripcion AS TituloAsignacion,Uni.Unidad,Gr.NombreGrupo,Ho.NombreHorario,Asi.Estado FROM asignaciones AS Asi INNER JOIN grupo AS Gr ON Gr.idGrupo = Asi.idGrupo 
     INNER JOIN persona AS P ON P.idPersona = Gr.idProfesor
     INNER JOIN asignaturas AS Asing ON Gr.idAsignatura = Asing.idAsignatura 
     INNER JOIN unidad as Uni ON Asi.idUnidad = Uni.idUnidad 
@@ -25,9 +25,11 @@ switch($proceso){
 
     echo '<table class="table table-striped table-condensed table-hover">
         	 <tr>
-                          <th width="10%">Descripcion</th>  
+                          
                         <th width="15%">Profesor</th> 
                         <th width="15%">Asignatura</th>
+                        <th width="15%">Titulo Asignacion</th>
+                        <th width="15%">Unidad</th>
                         <th width="7%">Grupo</th>       
                         <th width="15%">Horario</th>
                         <th width="10%">Estado</th>
@@ -35,16 +37,18 @@ switch($proceso){
                    </tr>';
 	while($registro2 = mysqli_fetch_array($registro)){
 		echo '<tr>
-                        <td>'.$registro2['Asignacion'].'</td>
+                        
                           <td>'.$registro2['Profesor'].'</td>
-                          <td>'.$registro2['Asignatura'].'</td>
-                          <td>'.$registro2['Grupo'].'</td>
-                          <td>'.$registro2['Horario'].'</td>
+                          <td>'.$registro2['NombreAsignatura'].'</td>
+                          <td>'.$registro2['TituloAsignacion'].'</td>
+                          <td>'.$registro2['Unidad'].'</td>
+                          <td>'.$registro2['NombreGrupo'].'</td>
+                          <td>'.$registro2['NombreHorario'].'</td>
                            <td>'.$registro2['Estado'].'</td>
-                          <td>'.$registro2['NumeroA'].'</td>
-                           <td> <a href="javascript:editarRegistro('.$registro2['id'].');">
+                         
+                           <td> <a href="javascript:editarRegistro('.$registro2['idAsignacion'].');">
                               <img src="../images/edita.jpg" width="25" height="25" alt="delete" title="Editar" /></a>
-                              <a href="javascript:eliminarRegistro('.$registro2['id'].');">
+                              <a href="javascript:eliminarRegistro('.$registro2['idAsignacion'].');">
                              <img src="../images/elimina.png" width="25" height="25" alt="delete" title="Eliminar" /></a>
                              </td>
                 </tr>';

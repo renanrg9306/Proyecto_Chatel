@@ -30,7 +30,7 @@ switch($proceso){
         if(mysqli_query($conex, "INSERT INTO estudiantes (idPersona,idGrupo,carnet) VALUES('$idpersona','$idgrupo','$carnet')"))
         {
           $ContUsuario = strrev($nombre);
-          mysqli_query($conex,"INSERT INTO usuarios (idPersona,idNivel,NombreUsuario,ContUsuario,Foto) VALUES('$idpersona','$idgrupo','$correo','$ContUsuario','$foto')");
+          mysqli_query($conex,"INSERT INTO usuarios (idPersona,idNivel,NombreUsuario,ContUsuario,Foto) VALUES('$idpersona',3,'$correo','$ContUsuario','$foto')");
         }
         else {
           echo "FALLADO";
@@ -47,7 +47,7 @@ switch($proceso){
   Nombre = '$nombre', Apellido = '$apellido', Cedula = '$cedula', Correo = '$correo', Celular = '$celular', Telefono = '$telefono', Direccion = '$direccion', Estado = '$estado' where idPersona = '$id' ")
   ){
     
-    mysqli_query($conex, "UPDATE estudiantes SET idgrupo = '$grupo', carnet = '$carnet' where idPersona = '$id'");
+    mysqli_query($conex, "UPDATE estudiantes SET idGrupo = '$idgrupo', carnet = '$carnet' where idPersona = '$id'");
   }
   else {
     echo "fallado";
@@ -57,18 +57,18 @@ switch($proceso){
 
 	break;
    }
-    $registro = mysqli_query($conex, "SELECT ES.idEstudiantes,P.idPersona,ES.carnet,P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,P.Estado,G.idGrupo FROM persona AS P INNER JOIN estudiantes AS ES ON P.idPersona = ES.idPersona INNER JOIN grupo as G ON ES.idGrupo = G.idGrupo
+    $registro = mysqli_query($conex, "SELECT ES.idEstudiantes,P.idPersona,ES.carnet,P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono,P.Direccion,CASE WHEN P.Estado = 1 THEN 'Activo'ELSE 'Inactivo' END AS Estado,G.NombreGrupo FROM persona AS P INNER JOIN estudiantes AS ES ON P.idPersona = ES.idPersona INNER JOIN grupo as G ON ES.idGrupo = G.idGrupo
     ORDER BY ES.idEstudiantes ASC");
 
-    echo '<table class="table table-striped table-condensed table-hover">
+    echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>
-                        <th width="10%">Carnet</th>
+                        <th width="5%">Carnet</th>
                          <th width="10%">Nombres</th>
                          <th width="10%">Apellidos</th>
                          <th width="10%">Cedula</th>
                          <th width="10%">Correo</th>
-                         <th width="10%">Celular</th>
-                         <th width="10%">Telefono</th>
+                         <th width="5%">Celular</th>
+                         <th width="5%">Telefono</th>
                          <th width="10%">Direccion</th>
                          <th width="5%">Estado</th> 
                           <th width="5%">Grupo</th>             
@@ -85,7 +85,7 @@ switch($proceso){
                   <td>'.$registro2['Telefono'].'</td>
                   <td>'.$registro2['Direccion'].'</td>
                   <td>'.$registro2['Estado'].'</td>
-                   <td>'.$registro2['idGrupo'].'</td>
+                   <td>'.$registro2['NombreGrupo'].'</td>
                    <td> <a href="javascript:editarRegistro('.$registro2['idPersona'].');">
                   <img src="../images/edita.jpg" width="25" height="25" alt="delete" title="Editar" /></a>
                   <a href="javascript:eliminarRegistro('.$registro2['idPersona'].');">

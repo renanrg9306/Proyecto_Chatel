@@ -7,9 +7,6 @@
 				
 			$usuario =mysqli_real_escape_string($conexion , $_POST['usuario']);
 			$pw = mysqli_real_escape_string($conexion , $_POST['password']);
-                
-
-			//	$numero = srand((double)microtime()*1000000);
 
 				$log = mysqli_query($conexion,"SELECT U.idUsuario,U.idPersona, U.NombreUsuario,U.ContUsuario,U.idNivel FROM usuarios As U INNER JOIN persona as P ON P.idPersona = U.idPersona WHERE U.NombreUsuario= '$usuario'  AND U.ContUsuario='$pw'");
 				if (mysqli_num_rows($log)>0) {

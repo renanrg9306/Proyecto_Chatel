@@ -8,17 +8,27 @@ if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
            $codigo = $_SESSION["idUsuario"];
+           $idPersona = $_SESSION['idPersona'];
 
-           $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
-             while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto'];                           
-                }
+           $consulta=mysqli_query($conex, "select foto from usuarios where idPersona = $idPersona");                  
+           while($filas=mysqli_fetch_array($consulta)){
+                    $foto=$filas['foto'];                           
+            }
+
+      $consulta=mysqli_query($conex, "SELECT  CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario, P.correo from usuarios AS US INNER JOIN persona AS P on
+      US.idPersona = P.idPersona where US.idPersona = $idPersona");                  
+        while($filas=mysqli_fetch_array($consulta)){
+                   $user=$filas['correo']; 
+                                             
+           }
+                          
+                
          
 ?>
-  <?php 
+<!--   <?php 
           $consulta=mysqli_query($conex, "SELECT idGrupo, NumeroGrupo from grupo");
           $grupo=($consulta);
-        ?>
+        ?> -->
 <script type="text/javascript">
  $(document).on("click", ".open-Updatepicture", function () {
      var myTitle = $(this).data('id');
@@ -66,6 +76,8 @@ if(isset($_SESSION['NombreUsuario'])) {
    
     <!--<script src="../js/bootstrap.min.js"></script>-->
     <script type="text/javascript" src="estudiantes/myjava.js"></script>
+    <script type="text/javascript" src="validaciones.js"></script>
+
 
    <!-- <link href="css/sweetalert.css" rel="stylesheet">
     <script type="text/javascript" src="/js/functions.js"></script>
@@ -296,7 +308,8 @@ include ('includes/perfil.php');
 			   </div> 
                <div class="form-group row"> <label for="carnet" class="col-md-2 control-label">Carnet:</label>
 				<div class="col-md-10"><input type="text" class="form-control" id="carnet" name="carnet" required maxlength="10"></div>
-			   </div> 
+                <div id="result-username"></div>
+               </div> 
 			   <div class="form-group row"> <label for="nombre" class="col-md-2 control-label">Nombres:</label>
 				<div class="col-md-10"><input type="text" class="form-control" id="nombre" name="nombre" required maxlength="50"></div>
 			   </div>

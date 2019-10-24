@@ -21,10 +21,10 @@ $registro = mysqli_query($conex,"SELECT U.idUsuario,P.idPersona,CONCAT(P.Nombre,
                                 <td>'.$registro2['ContUsuario'].'</td>
                                 <td>'.$registro2['idNivel'].'</td>
                                
-                               <td> <a href="javascript:editarRegistro('.$registro2['idPersona'].');">
+                               <td> <a href="javascript:editarRegistro('.$registro2['idUsuario'].');">
                               <img src="../images/edita.jpg" width="25" height="25" alt="delete" title="Editar" /></a>
-                              <a href="javascript:eliminarRegistro('.$registro2['idPersona'].');">
-                              <img src="../images/elimina.png" width="25" height="25" alt="delete" title="Eliminar" /></a>
+                              <a href="javascript:eliminarRegistro('.$registro2['idUsuario'].');">
+                              <img src="../images/elimina.png" width="25" height="25" alt="delete" title="Desactiva Cuenta" /></a>
                         </td>
 		      </tr>';
       	}

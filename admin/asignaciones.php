@@ -9,10 +9,19 @@ if(isset($_SESSION['idPersona'])) {
            $codigo = $_SESSION["idUsuario"];
            $idpersona = $_SESSION['idPersona'];
 
-           $consulta=mysqli_query($conex, "select Foto from usuarios where Codigo = $codigo");                  
-             while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto'];                           
-                }
+           $idPersona = $_SESSION['idPersona'];
+
+           $consulta=mysqli_query($conex, "select foto from usuarios where idPersona = $idPersona");                  
+           while($filas=mysqli_fetch_array($consulta)){
+                    $foto=$filas['foto'];                           
+            }
+
+      $consulta=mysqli_query($conex, "SELECT  CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario, P.correo from usuarios AS US INNER JOIN persona AS P on
+      US.idPersona = P.idPersona where US.idPersona = $idPersona");                  
+        while($filas=mysqli_fetch_array($consulta)){
+                   $user=$filas['correo']; 
+                                             
+           }
          
          
       ?>
@@ -277,7 +286,7 @@ include('conex.php');
                                         <div class="modal-body">
 
                                             <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
-                                            <input type="text" class="form-control" required readonly id="idPersona" name="idPersona" readonly="readonly" value=<?php echo $idpersona?> style="visibility:true; height:5px;" />
+                                            <input type="text" class="form-control" required readonly id="idPersona" name="idPersona" readonly="readonly" value=<?php echo $idpersona?> style="visibility:hidden; height:5px;" />
                                             
 
                                             <div class="form-group row"> <label for="codigo" class="col-md-3 control-label">Proceso:</label>

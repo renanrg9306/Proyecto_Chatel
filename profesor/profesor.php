@@ -4,18 +4,19 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 session_start();
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 2) {
+     if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
+            $idPersona = $_SESSION["idPersona"];
 
-              $consulta=mysqli_query($conex, "select Foto from profesor where idProfesor = $codigo");                  
+
+              $consulta=mysqli_query($conex, "select Foto from usuarios where idPersona = $idPersona");                  
                 while($filas=mysqli_fetch_array($consulta)){
                          $foto=$filas['Foto'];                           
                  }
 
-                 $consulta2 = mysqli_query($conex, "select concat (NombresProfesor, ' ', ApellidosProfesor) as Profesor from profesor where idProfesor = $codigo") or die(mysqli_error($conex));
+                 $consulta2 = mysqli_query($conex, "SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Nombre, P.correo FROM persona AS P INNER JOIN usuarios AS U ON P.idPersona = U.idPersona WHERE U.idPersona = '$idPersona'") or die(mysqli_error($conex));
                  while ($filas2=mysqli_fetch_array($consulta2))  {
-                         $profesor=$filas2['Profesor'];                           
+                         $profesor=$filas2['correo'];                           
                  }
 ?>
 

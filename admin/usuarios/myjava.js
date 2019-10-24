@@ -64,6 +64,7 @@ function eliminarRegistro(id){
 	}
 }
 function editarRegistro(id){
+	var Dis = document.getElementById('idNiveles');
 	$('#formulario')[0].reset();
 	var url = 'usuarios/edita_usuario.php';
 		$.ajax({
@@ -76,14 +77,33 @@ function editarRegistro(id){
 				$('#edi').show();
 				$('#pro').val('Edicion');
 				$('#id-registro').val(id);
-				$('#nombre').val(datos[0]);
-				$('#apellido').val(datos[1]);
-				$('#cedula').val(datos[2]);
-				$('#correo').val(datos[3]);
-				$('#celular').val(datos[4]);
-				$('#telefono').val(datos[5]);
-				$('#direccion').val(datos[6]);
-				$('#estado').val(datos[7]);
+				$('#CorreoAcceso').val(datos[0]);
+				$('#Contraseña').val(datos[1]);
+				if(datos[2]==3){				
+				
+				Dis.setAttribute("disabled","true");
+				}
+				else{
+					if(Dis.getAttribute("disabled")==null){
+						$("#idNivel option[value='"+datos[2]+"']").attr("selected",true);
+					}
+					else
+					{
+						Dis.removeAttribute("disabled");
+					}
+					
+					
+				
+				}
+
+				/* if(datos[2]=3){
+					
+					
+				}
+				else{
+					
+				} */
+				
 				$('#registra-datos').modal({
 					show:true,
 					backdrop:'static'

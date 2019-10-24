@@ -7,14 +7,22 @@ if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 1) {
         $user = $_SESSION['NombreUsuario'];
            $codigo = $_SESSION["idUsuario"];
+           $idPersona = $_SESSION['idPersona'];
  ?>
           <?php
-           $consulta=mysqli_query($conex, "SELECT US.Foto, CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario from usuarios AS US INNER JOIN persona AS P on
-            US.idPersona = P.idPersona where US.NombreUsuario = '$user'");                  
-             while($filas=mysqli_fetch_array($consulta)){
-                        $foto=$filas['Foto'];                           
-                }
-         
+          
+
+           $consulta=mysqli_query($conex, "select foto from usuarios where idPersona = $idPersona");                  
+           while($filas=mysqli_fetch_array($consulta)){
+                    $foto=$filas['foto'];                           
+            }
+
+      $consulta=mysqli_query($conex, "SELECT  CONCAT(P.Nombre,' ',P.Apellido) As NombreUsuario, P.correo from usuarios AS US INNER JOIN persona AS P on
+      US.idPersona = P.idPersona where US.idPersona = $idPersona");                  
+        while($filas=mysqli_fetch_array($consulta)){
+                   $user=$filas['correo']; 
+                                             
+           }
          
             ?>
 
@@ -218,7 +226,7 @@ include ('includes/perfil.php');
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     <h5>
-                        Bienvenido a la sección donde se encuentra el listado de los administradores, Profesores y Estudiantes puedes desactivar la cuenta de cualquier Usuario o eliminar los datos.</h5>
+                        Bienvenido a la sección donde se encuentra el listado de los administradores, Profesores y Estudiantes puedes desactivar la cuenta o cambiar el rol de usuario.</h5>
                 </div>
             </div>
         </div>
@@ -278,17 +286,30 @@ include ('includes/perfil.php');
                                 <div class="modal-body">
 
                                     <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
-
-                                    <div class="form-group row"> <label for="nombre" class="col-md-2 control-label">Nombres:</label>
-                                        <div class="col-md-10"><input type="text" class="form-control" id="nombre" name="nombre" required maxlength="50"></div>
+                                    <div class="form-group row"> <label for="codigo" class="col-md-2 control-label">Proceso:</label>
+				                    <div class="col-md-10"><input type="text" readonly class="form-control-plaintext" required readonly id="pro" name="pro"/></div>
                                     </div>
-                                    <div class="form-group row"> <label for="apellido" class="col-md-2 control-label">Apellidos:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control" id="apellido" name="apellido" required maxlength="50"></div>
+                                    <div class="form-group row"> <label for="nombre" class="col-md-3 control-label">Coreo de Acceso:</label>
+                                        <div class="col-md-9"><input type="text" class="form-control" id="CorreoAcceso" name="CorreoAcceso" required maxlength="50"></div>
                                     </div>
-                                    <div class="form-group row"> <label for="cedula" class="col-md-2 control-label">Cedula:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control" id="cedula" name="cedula" required maxlength="16"></div>
+                                    <div class="form-group row"> <label for="apellido" class="col-md-3 control-label">Contraseña:</label>
+                                        <div class="col-sm-9"><input type="text" class="form-control" id="Contraseña" name="Contraseña" required maxlength="50"></div>
                                     </div>
-                                    <div class="form-group row"> <label for="correo" class="col-md-2 control-label">Correo:</label>
+                                    <div class="form-group row"> <label for="estado" class="col-md-3 control-label">Rol:</label>
+                                        <div class="col-md-9">
+                                                <select class="form-control" id="idNiveles" name="idNivel" required="">
+                                                <?php
+                                                    include 'conex.php';
+                                                    $conex = mysqli_connect("localhost", "agat", "1234", "bd");
+                                                    $query = mysqli_query($conex,"SELECT idNivel, NombreNivel FROM niveles ORDER BY idNivel ASC LIMIT 2");
+                                                    while($valores = mysqli_fetch_array($query)){
+                                                    echo "<option value='$valores[idNivel]'>$valores[NombreNivel]</option>";
+                                                                                    }
+                                                                            ?>
+                                                </select>
+                                        </div>
+                                            </div>
+                                   <!--  <div class="form-group row"> <label for="correo" class="col-md-2 control-label">Correo:</label>
                                         <div class="col-sm-10"><input type="email" class="form-control" id="correo" name="correo" required maxlength="50"></div>
                                     </div>
                                     <div class="form-group row"> <label for="celular" class="col-md-2 control-label">Celular:</label>
@@ -299,7 +320,7 @@ include ('includes/perfil.php');
                                     </div>
                                     <div class="form-group row"> <label for="direccion" class="col-md-2 control-label">Direccion:</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" id="direccion" name="direccion" required="" maxlength="250"></textarea></div>
+                                            <textarea class="form-control" id="direccion" name="direccion" required="" maxlength="250"></textarea></div> -->
 
 
                                     <!-- <div class="form-group row"> <label for="codigo" class="col-md-2 control-label"><b>Proceso:</b></label>
@@ -319,7 +340,7 @@ include ('includes/perfil.php');
                                                 <option value="3">Estudiante</option>
                                             </select>
                                         </div> -->
-                                    </div>
+                                   <!--  </div> -->
                                     <br>
                                     <div id="mensaje"></div>
                                 </div>

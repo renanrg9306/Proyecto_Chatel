@@ -47,7 +47,7 @@ $pdf = new PDF();
 //$pdf = new FPDF('L','mm','legal'); //Tamaño en forma Horizontal
 $pdf->AliasNbPages();
 $pdf->AddPage();
-//$pdf = new FPDF('L','mm','legal'); //Tamaño en forma Horizontal
+/* $pdf = new FPDF('L','mm','legal'); //Tamaño en forma Horizontal */
 //$pdf = new FPDF('P','mm','letter'); //Tamaño Normal
 //$pdf->AddPage();
 //$title = 'Reporte de Productos';
@@ -59,7 +59,7 @@ $pdf->Ln(8);
 $pdf->SetFont('Arial', '', 8);
 //CONSULTA
 $docentes = mysqli_query($conex, "SELECT P.Nombre,P.Apellido,P.Cedula,P.Correo,P.Celular,P.Telefono FROM persona As P
-INNER JOIN profesor AS Pro ON P.idPersona = Pro.idPersona");
+INNER JOIN usuarios AS U ON P.idPersona = U.idPersona WHERE U.idNivel = 2");
 $item = 0;
 while($docentes2 = mysqli_fetch_array($docentes)){
 	$item = $item+1;
