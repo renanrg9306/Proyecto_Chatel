@@ -9,7 +9,7 @@ if(isset($_SESSION['NombreUsuario'])) {
             $idPersona = $_SESSION["idPersona"];
 
 
-              $consulta=mysqli_query($conex, "select Foto from usuarios where idPersona = $idPersona");                  
+              $consulta=mysqli_query($conex, "select Foto from usuarios");                  
                 while($filas=mysqli_fetch_array($consulta)){
                          $foto=$filas['Foto'];                           
                  }
@@ -18,6 +18,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                  while ($filas2=mysqli_fetch_array($consulta2))  {
                          $profesor=$filas2['correo'];                           
                  }
+            
 ?>
 
 <!DOCTYPE html>

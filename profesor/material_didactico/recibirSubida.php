@@ -16,12 +16,15 @@ if (isset($_POST['subir'])) {
                  if (($tipo == "application/pdf") || ($tipo == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") || ($tipo == "application/msword")) {       //validando que el archivo sea de tipo PDF y WORD (.docx, .doc)          
                    if (copy($ruta, $destino)) {
                     $descripcion= $_POST['descripcion'];
-                    $codigo1= $_POST['codigo'];
-                    $numero= $_POST['numero'];
+                    $idgrupo= $_POST['idgrupo'];
+                    $idAsignacion = $_POST['idAsignacion'];
                     $fecha =date("Y-m-d");
                   // $sql = "INSERT INTO material_didactico (Descripcion, Archivo,CodigoMaterial,Fecha_subida,idNumeroAsignacion, //idDocente) VALUES('$descripcion','$nombre','$codigo1','$fecha','$numero','$codigo')";
-                    $query = mysqli_query($conex, "INSERT INTO material_didactico (Descripcion, Archivo,CodigoMaterial,Fecha_subida,idNumeroAsignacion, idProfesor) VALUES('$descripcion','$nombre','$codigo1','$fecha','$numero','$codigo')");
+                    $query = mysqli_query($conex, "INSERT INTO material_didactico (idGrupo,Descripcion,Archivo) VALUES('$idgrupo','$descripcion','$nombre')");
                         if($query){
+                          $idMaterial = mysqli_insert_id($conex);
+                          $query = mysqli_query($conex, "INSERT INTO material_docente (idMaterialDidactico,idAsignacion,Fecha_Subida) VALUES('$idMaterial','$idAsignacion','$fecha')");
+
                                 echo '<script> alert("El Libro PDF se ha subido al servidor con Exito.");</script>';
                                 echo '<script> window.location="subirMaterial.php"; </script>';
                           }

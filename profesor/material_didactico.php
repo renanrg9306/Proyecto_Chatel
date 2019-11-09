@@ -1,28 +1,32 @@
 <?php
-session_start();
+
 include '../admin/conex.php'; 
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
+session_start();
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 2) {
+     if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
-        ?>
-<?php 
-          //$consulta1="select idNumeroAsignacion, numeroAsignado FROM numeros_asignaciones";
-          $numero=mysqli_query($conex,"select idNumeroAsignacion, numeroAsignado FROM numeros_asignaciones");
-
-             $consultaD=mysqli_query($conex, "select Foto from profesor where idProfesor = $codigo");                  
-                while($filas=mysqli_fetch_array($consultaD)){
-                         $foto=$filas['Foto'];                           
-                 }
-
-                 $consultaD2 = mysqli_query($conex, "select concat (NombresProfesor, ' ', ApellidosProfesor) as Profesor from profesor where idProfesor = $codigo"); 
-                 while($filas2=mysqli_fetch_array($consultaD2)){
-                         $profesor=$filas2['Profesor'];                           
-                 }
+            $idPersona = $_SESSION["idPersona"];
     
-        ?>
+
+          //$consulta1="select idNumeroAsignacion, numeroAsignado FROM numeros_asignaciones";
+          
+
+             $consultaD=mysqli_query($conex, "SELECT foto FROM usuarios WHERE idPersona = $idPersona");                  
+                while($filas=mysqli_fetch_array($consultaD)){
+                         $foto=$filas['foto'];                           
+                 }
+
+                 $consultaD2 = mysqli_query($conex, "SELECT   CONCAT(P.Nombre, ' ', P.Apellido) as Profesor, correo from persona AS P INNER JOIN usuarios AS U ON P.idPersona = $idPersona"); 
+                 while($filas2=mysqli_fetch_array($consultaD2)){
+                         $profesor=$filas2['correo'];                           
+                 }
+
+                 $numeroRegistros = mysqli_num_rows( mysqli_query($conex, "SELECT * FROM material_didactico INNER JOIN material_docente ON material_didactico.idMaterialDidactico = material_docente.idMaterialDidactico INNER JOIN grupo ON grupo.idGrupo = material_didactico.idGrupo INNER JOIN persona ON persona.idPersona = $idPersona"));
+         
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -310,7 +314,7 @@ include ('includes/perfil.php');
                                 <h4 style="font-weight: bold;">
                                     <?php
           include('../admin/conex.php');
-          $numeroRegistros = mysqli_num_rows(mysqli_query($conex, "SELECT * FROM material_didactico where idProfesor = $codigo"));
+          
           echo "Registros Totales: $numeroRegistros";
         ?>
                                 </h4>
@@ -393,3 +397,4 @@ include ('includes/perfil.php');
  echo '<script> window.location="../login.php"; </script>';
 }
 ?>
+

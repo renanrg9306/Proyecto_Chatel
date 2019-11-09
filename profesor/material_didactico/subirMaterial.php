@@ -3,21 +3,22 @@ include '../../admin/conex.php';
 session_start();
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 2) {
+     if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
+            $idPersona = $_SESSION["idPersona"];
 
-              $consulta=mysqli_query($conex, "select Foto from profesor where idProfesor = $codigo");                  
-                while($filas=mysqli_fetch_array($consulta)){
-                         $foto=$filas['Foto'];                           
-                 }
-         
-          $numero=mysqli_query($conex, "select idNumeroAsignacion, numeroAsignado FROM numeros_asignaciones");
+            $consulta=mysqli_query($conex, "select Foto from usuarios where idPersona = $idPersona");                  
+            while($filas=mysqli_fetch_array($consulta)){
+                     $foto=$filas['Foto'];                           
+             }
 
-                 $consulta2 = mysqli_query($conex, "select concat (NombresProfesor, ' ', ApellidosProfesor) as Profesor from profesor where idProfesor = $codigo") or die(mysqli_error($conex));
-                 while ($filas2=mysqli_fetch_array($consulta2))  {
-                         $profesor=$filas2['Profesor'];                           
+             $consulta2 = mysqli_query($conex, "SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Nombre, P.correo FROM persona AS P INNER JOIN usuarios AS U ON P.idPersona = U.idPersona WHERE U.idPersona = '$idPersona'") or die(mysqli_error($conex));
+             while ($filas2=mysqli_fetch_array($consulta2))  {
+                     $profesor=$filas2['correo'];                           
                  }
+
+                 $numero = mysqli_query($conex,"SELECT idGrupo, NombreGrupo FROM grupo");
+                 $Asignacion = mysqli_query($conex,"SELECT idAsignacion, Descripcion FROM asignaciones");
 ?>
 
 <!DOCTYPE html>
@@ -289,11 +290,25 @@ if(isset($_SESSION['NombreUsuario'])) {
 
             <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;"/>
 
-          <div class="form-group"> <label for="carrera" class="col-md-3 control-label">Numero:</label>
+          <div class="form-group"> <label for="carrera" class="col-md-3 control-label">Grupo:</label>
                          <div class="col-md-9">
-                       <select class="form-control" id="numero" name="numero">
+                       <select class="form-control" id="idgrupo" name="idgrupo">
                      <?php 
+                            
                           while($fila=mysqli_fetch_row($numero)){
+                          echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
+                          }
+                          ?>
+                      </select>
+                       </div>
+                    </div> <br>
+
+        <div class="form-group"> <label for="carrera" class="col-md-3 control-label">Asignacion:</label>
+                         <div class="col-md-9">
+                       <select class="form-control" id="idAsignacion" name="idAsignacion">
+                     <?php 
+                            
+                          while($fila=mysqli_fetch_row($Asignacion)){
                           echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
                           }
                           ?>
@@ -311,9 +326,9 @@ if(isset($_SESSION['NombreUsuario'])) {
          </div> <br> 
 
 
-               <div class="form-group"> <label for="carnet" class="col-md-3 control-label">Codigo Material:</label>
+               <!-- div class="form-group"> <label for="carnet" class="col-md-3 control-label">Codigo Material:</label>
         <div class="col-md-9"><input type="number" class="form-control" id="codigo" name="codigo" required maxlength="50"></div>
-         </div> <br>
+         </div> <br> -->
          <br>   
                <center><input type="submit" value="Registrar" name="subir" class="btn btn-success" id="reg"/></center>    
           

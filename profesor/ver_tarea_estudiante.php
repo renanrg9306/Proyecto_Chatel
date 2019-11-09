@@ -4,7 +4,7 @@ include '../admin/conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 2) {
+     if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
             $codigo = $_SESSION["Codigo"];
         ?>

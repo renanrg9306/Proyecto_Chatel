@@ -10,7 +10,7 @@
 								<span class="navbar-user-img online pull-right">
 									<i class="ti-user"></i>
 								</span>
-								<span class="hidden-xs "><h5 style="color:#ffffff;"><b> &nbsp; Online: </b><h7 style="color:#1D809F;"><?php echo $profesor ?></h7></h5></span>
+								<span class="hidden-xs "><h5 style="color:#ffffff;"><b> &nbsp; Online: </b><h7 style="color:#1D809F;"><?php echo $profesor?></h7></h5></span>
 							</a>
 							<ul class="dropdown-menu">
 								
