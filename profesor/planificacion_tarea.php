@@ -6,23 +6,21 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
+            $idPersona = $_SESSION["idPersona"];
         ?>
 <?php 
-          $asignatura2=mysqli_query($conex,"select idAsignatura, NombreAsignatura from asignaturas");
-          $asignatura=mysqli_query($conex, "SELECT asignaturas.idAsignatura as ID, asignaturas.NombreAsignatura as Asignatura FROM asignaciones INNER JOIN asignaturas ON asignaciones.idAsignatura = asignaturas.idAsignatura
-where idProfesor = $codigo and asignaciones.Estado = 1");
-          //$consulta3="select idNumeroAsignacion, numeroAsignado from numeros_asignaciones";
-          $numeros=mysqli_query($conex, "select idNumeroAsignacion, numeroAsignado from numeros_asignaciones");
-
-           $consultaD=mysqli_query($conex, "select Foto from profesor where idProfesor = $codigo");                  
+        $Asignacion  = mysqli_query($conex,"SELECT Asig.idAsignacion,Asig.Descripcion FROM asignaciones AS Asig INNER JOIN grupo AS G ON Asig.idGrupo = G.idGrupo WHERE G.idProfesor = $idPersona");
+          $P_tarea=mysqli_query($conex,"select idAsignatura, NombreAsignatura from asignaturas");
+        
+    
+           $consultaD=mysqli_query($conex, "select Foto from usuarios where idPersona = $idPersona");                  
                 while($filas=mysqli_fetch_array($consultaD)){
                          $foto=$filas['Foto'];                           
                  }
 
-                 $consultaD2 = mysqli_query($conex, "select concat (NombresProfesor, ' ', ApellidosProfesor) as Profesor from profesor where idProfesor = $codigo"); 
+                 $consultaD2 = mysqli_query($conex, "SELECT   CONCAT(P.Nombre, ' ', P.Apellido) as Profesor, P.correo from persona AS P INNER JOIN usuarios AS U ON P.idPersona = $idPersona"); 
                  while($filas2=mysqli_fetch_array($consultaD2)){
-                         $profesor=$filas2['Profesor'];                           
+                         $profesor=$filas2['correo'];                           
                  }
          
         ?>
@@ -64,6 +62,8 @@ where idProfesor = $codigo and asignaciones.Estado = 1");
     <script type="text/javascript" src="../js/back-to-top.js"></script>
 
     <script src="planificacion_tareas/myjava.js"></script>
+
+  
 
 </head>
 
@@ -308,7 +308,7 @@ include ('includes/perfil.php');
                                         <h4 style="font-weight: bold;">
                                             <?php
 include('../admin/conex.php');
-    $numeroRegistros = mysqli_num_rows(mysqli_query($conex,"SELECT * FROM planificacion_tareas where idProfesor = $codigo"));
+    $numeroRegistros = mysqli_num_rows(mysqli_query($conex,"SELECT Plt.idPlanificacion,Plt.Titulo_Tarea, Asig.Descripcion, Uni.Unidad, Plt.Fecha_Publicacion,Plt.Fecha_Entrega FROM planificacion_tareas as Plt INNER JOIN asignaciones AS Asig ON Plt.idAsignacion = Asig.idAsignacion INNER JOIN grupo AS G ON Asig.idGrupo = G.idGrupo INNER JOIN unidad AS Uni ON Asig.idUnidad = Uni.idUnidad WHERE G.idProfesor = $idPersona"));
     echo "Registros Totales: $numeroRegistros";
         ?>
                                         </h4>
@@ -325,7 +325,7 @@ include('../admin/conex.php');
                                                         <i class='fa fa-align-justify'></i>&nbsp;&nbsp;Planificacion de Tareas</b></h4>
                                                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             </div>
-                                            <form id="formulario" class="form-group" onsubmit="return agregarRegistro();">
+                                            <form id="formulario" class="form-group" action="post" onsubmit="return agregarRegistro();" enctype="multipart/form-data">
                                                 <div class="modal-body">
 
                                                     <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;" />
@@ -334,22 +334,12 @@ include('../admin/conex.php');
                                                         <div class="col-md-8"><input type="text" class="form-control-plaintext" required readonly id="pro" name="pro" /></div>
                                                     </div> 
 
-                                                    <div class="form-group row"> <label for="carrera" class="col-md-4 control-label">Numero Asignacion:</label>
+                                                
+                                                    <div class="form-group row"> <label for="cuatrimestre" class="col-md-4 control-label">Asignación:</label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control" id="numero" name="numero">
+                                                            <select class="form-control" id="idAsignacion" name="idAsignacion">
                                                                 <?php 
-                          while($fila=mysqli_fetch_row($numeros)){
-                          echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
-                          }
-                          ?>
-                                                            </select>
-                                                        </div>
-                                                    </div> 
-                                                    <div class="form-group row"> <label for="cuatrimestre" class="col-md-4 control-label">Asignatura:</label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control" id="asignatura" name="asignatura">
-                                                                <?php 
-                          while($fila=mysqli_fetch_row($asignatura2)){
+                          while($fila=mysqli_fetch_row($Asignacion)){
                           echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
                           }
                           ?>
@@ -357,24 +347,9 @@ include('../admin/conex.php');
                                                         </div>
                                                     </div> 
 
-                                                    <div class="form-group row"> <label for="cuatrimestre" class="col-md-4 control-label">Unidad:</label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control" id="unidad" name="unidad">
-                                                                <option>Unidad I</option>
-                                                                <option>Unidad II</option>
-                                                                <option>Unidad III</option>
-                                                                <option>Unidad IV</option>
-                                                                <option>Unidad V</option>
-                                                                <option>Unidad VI</option>
-                                                            </select>
-                                                        </div>
-                                                    </div> 
+                                                   
 
-                                                    <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Descripcion Unidad:</label>
-                                                        <div class="col-md-8">
-                                                            <textarea name="descripcionU" id="descripcionU" required="true" class="form-control" rows="2"></textarea>
-                                                        </div>
-                                                    </div> 
+
 
                                                     <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Tarea:</label>
                                                         <div class="col-md-8"><input type="text" class="form-control" id="tarea" name="tarea" required maxlength="50"></div>
@@ -386,19 +361,24 @@ include('../admin/conex.php');
                                                         </div>
                                                     </div>
 
+                                                   
+        
+
                                                     <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Fecha Presentacion:</label>
                                                         <div class="col-md-8"><input type="date" class="form-control" name="fecha" id="fecha" required="true"></div>
                                                     </div> 
 
-
-                                                    <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Codigo Tarea:</label>
-                                                        <div class="col-md-8"><input type="number" class="form-control" name="codigo" id="codigo" required maxlength="50"></div>
+                                                   <!--  <div class="form-group row"> <label for="carnet" class="col-md-4 control-label">Archivo:</label>
+                                                        <div class="col-md-8">
+                                                            <input type="file" name = "fileToUpload" id="fileToUpload">
+                                                        </div>
                                                     </div> 
+                                                      -->
 
                                                     <div id="mensaje"></div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="submit" value="Registrar" class="btn btn-success" id="reg" />
+                                                    <input type="submit" value="Registrar" name="subirtarea" class="btn btn-success" id="reg" />
                                                     <input type="submit" value="Editar" class="btn btn-warning" id="edi" />
                                                 </div>
                                             </form>
@@ -477,3 +457,4 @@ include('../admin/conex.php');
  echo '<script> window.location="../login.php"; </script>';
 }
 ?>
+  

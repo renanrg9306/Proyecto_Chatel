@@ -14,7 +14,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                          $foto=$filas['Foto'];                           
                  }
 
-                 $consulta2 = mysqli_query($conex, "SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Nombre, P.correo FROM persona AS P INNER JOIN usuarios AS U ON P.idPersona = U.idPersona WHERE U.idPersona = '$idPersona'") or die(mysqli_error($conex));
+                 $consulta2 = mysqli_query($conex, "SELECT CONCAT(P.Nombre,' ',P.Apellido) AS Nombre, P.correo FROM persona AS P INNER JOIN usuarios AS U ON P.idPersona = U.idPersona WHERE U.idPersona = $idPersona") or die(mysqli_error($conex));
                  while ($filas2=mysqli_fetch_array($consulta2))  {
                          $profesor=$filas2['correo'];                           
                  }

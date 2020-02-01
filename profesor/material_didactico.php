@@ -23,7 +23,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                          $profesor=$filas2['correo'];                           
                  }
 
-                 $numeroRegistros = mysqli_num_rows( mysqli_query($conex, "SELECT * FROM material_didactico INNER JOIN material_docente ON material_didactico.idMaterialDidactico = material_docente.idMaterialDidactico INNER JOIN grupo ON grupo.idGrupo = material_didactico.idGrupo INNER JOIN persona ON persona.idPersona = $idPersona"));
+                 $numeroRegistros = mysqli_num_rows( mysqli_query($conex, "SELECT * FROM material_didactico AS MD INNER JOIN material_docente AS MDC ON MD.idMaterialDidactico = MDC.idMaterialDidactico INNER JOIN asignaciones AS ASIG ON MDC.idAsignacion = ASIG.idAsignacion INNER JOIN grupo AS G ON ASIG.idGrupo = G.idGrupo WHERE G.idProfesor = $idPersona"));
          
     
 ?>

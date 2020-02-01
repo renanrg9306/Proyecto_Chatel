@@ -18,7 +18,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                  }
 
                  $numero = mysqli_query($conex,"SELECT idGrupo, NombreGrupo FROM grupo");
-                 $Asignacion = mysqli_query($conex,"SELECT idAsignacion, Descripcion FROM asignaciones");
+                 $Asignacion = mysqli_query($conex,"SELECT  asignaciones.idAsignacion, asignaciones.Descripcion FROM asignaciones INNER JOIN planificacion_tareas ON asignaciones.idAsignacion = planificacion_tareas.idAsignacion INNER JOIN grupo ON asignaciones.idGrupo = grupo.idGrupo WHERE grupo.idProfesor  = $idPersona");
 ?>
 
 <!DOCTYPE html>
@@ -290,18 +290,7 @@ if(isset($_SESSION['NombreUsuario'])) {
 
             <input type="text" class="form-control" required readonly id="id-registro" name="id-registro" readonly="readonly" style="visibility:hidden; height:5px;"/>
 
-          <div class="form-group"> <label for="carrera" class="col-md-3 control-label">Grupo:</label>
-                         <div class="col-md-9">
-                       <select class="form-control" id="idgrupo" name="idgrupo">
-                     <?php 
-                            
-                          while($fila=mysqli_fetch_row($numero)){
-                          echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
-                          }
-                          ?>
-                      </select>
-                       </div>
-                    </div> <br>
+    
 
         <div class="form-group"> <label for="carrera" class="col-md-3 control-label">Asignacion:</label>
                          <div class="col-md-9">

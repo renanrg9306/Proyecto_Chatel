@@ -5,7 +5,7 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 $idPersona = $_SESSION["idPersona"];
 $dato = $_POST['dato'];
 
-$registro = mysqli_query($conex, "SELECT MD.idMaterialDidactico,MD.Descripcion,MDOC.Fecha_Subida,ASI.Descripcion AS 'Titulo_Asignacion',Unidad,G.NombreGrupo FROM material_didactico AS MD INNER JOIN material_docente AS MDOC ON MD.idMaterialDidactico = MDOC.idMaterialDidactico INNER JOIN grupo AS G ON MD.idGrupo = G.idGrupo INNER JOIN asignaciones AS ASI ON MDOC.idAsignacion = ASI.idAsignacion INNER JOIN unidad AS UN ON ASI.idUnidad = UN.idUnidad INNER JOIN persona ON persona.idPersona =$idPersona and MD.Descripcion  LIKE '%$dato%' ORDER BY MD.idMaterialDidactico ASC");
+$registro = mysqli_query($conex, "SELECT MD.idMaterialDidactico, MD.Descripcion,MDC.Fecha_Subida,ASIG.Descripcion AS Titulo_Asignacion,U.Unidad,G.NombreGrupo FROM material_didactico AS MD INNER JOIN material_docente AS MDC ON MD.idMaterialDidactico = MDC.idMaterialDidactico INNER JOIN asignaciones AS ASIG ON MDC.idAsignacion = ASIG.idAsignacion INNER JOIN unidad AS U ON ASIG.idUnidad = U.idUnidad INNER JOIN grupo AS G ON ASIG.idGrupo = G.idGrupo WHERE G.idProfesor = $idPersona and MD.Descripcion  LIKE '%$dato%' ORDER BY MD.idMaterialDidactico ASC");
 
        echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>

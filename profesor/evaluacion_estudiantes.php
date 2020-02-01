@@ -6,11 +6,21 @@ $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
      if ($_SESSION["idNivel"] == 2) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
+            $idPersona = $_SESSION["idPersona"];
         ?>
 <?php 
+
+$consultaD=mysqli_query($conex, "select Foto from usuarios where idPersona = $idPersona");                  
+while($filas=mysqli_fetch_array($consultaD)){
+         $foto=$filas['Foto'];                           
+ }
+
+ $consultaD2 = mysqli_query($conex, "SELECT   CONCAT(P.Nombre, ' ', P.Apellido) as Profesor, P.correo from persona AS P INNER JOIN usuarios AS U ON P.idPersona = $idPersona"); 
+ while($filas2=mysqli_fetch_array($consultaD2)){
+         $profesor=$filas2['correo'];                           
+ }
          
-          $asignatura=mysqli_query($conex,"SELECT asignaturas.idAsignatura as id, asignaturas.NombreAsignatura as asignatura
+          /* $asignatura=mysqli_query($conex,"SELECT asignaturas.idAsignatura as id, asignaturas.NombreAsignatura as asignatura
                       FROM asignaciones INNER JOIN asignaturas ON  asignaciones.idAsignatura =  asignaturas.idAsignatura
                       where idProfesor = $codigo and asignaciones.Estado = 1");
           
@@ -27,9 +37,9 @@ if(isset($_SESSION['NombreUsuario'])) {
 
                  $consultaD2 = mysqli_query($conex,"select concat (NombresProfesor, ' ', ApellidosProfesor) as Profesor from profesor where idProfesor = $codigo"); 
                  while($filas2=mysqli_fetch_array($consultaD2)){
-                         $profesor=$filas2['Profesor'];                           
+                         $profesor=$filas2['profesor'];                           
                  }
-         
+          */
         ?>
 <!DOCTYPE html>
 <html lang="en">

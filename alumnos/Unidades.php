@@ -3,9 +3,9 @@ session_start();
 include '../admin/conex.php';
 $conex = mysqli_connect("localhost", "agat", "1234", "bd");
 if(isset($_SESSION['NombreUsuario'])) {
-     if ($_SESSION["idNiveles"] == 3) {
+     if ($_SESSION["idNivel"] == 3) {
             $user = $_SESSION['NombreUsuario'];
-            $codigo = $_SESSION["Codigo"];
+            $idPersona = $_SESSION["idPersona"];
 
                 $consulta=mysqli_query($conex,"select Foto from estudiantes where idEstudiantes = $codigo");                  
                 while($filas=mysqli_fetch_array($consulta)){
