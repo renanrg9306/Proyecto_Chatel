@@ -28,7 +28,7 @@ if(isset($_POST['submit'])){
          switch($proceso){
             case 'Registro': mysqli_query($conex, "INSERT INTO planificacion_tareas (idAsignacion,Titulo_Tarea,Descripcion,Archivo,Fecha_Publicacion,Fecha_Entrega) VALUES('$idAsignacion','$tarea','$descripcionT','$tarjetfile','$FechaPu','$Fecha_Entrega')");
             break;
-            case 'Edicion': mysqli_query($conex, "UPDATE planificacion_tareas SET idNumeroAsignacion = '$idAsignacion',idAsignatura = '$asignatura',Unidad = '$unidad',DescripcionUnidad = '$descripcionU' ,Tarea = '$tarea',DescripcionTarea = '$descripcionT',FechaPublicacion = '$fechaPu' ,FechaPresentacion = '$fechaPre' where idPlanificacion = '$id'");
+            case 'Edicion': mysqli_query($conex, "UPDATE planificacion_tareas SET idAsignacion = '$idAsignacion', Titulo_Tarea = '$tarea', Archivo = '$tarjetfile',Fecha_Entrega = '$Fecha_Entrega' where idPlanificacion = '$id'");
             break;
         
          }

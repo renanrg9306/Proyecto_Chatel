@@ -23,10 +23,10 @@ switch($proceso){
 
     echo '<table class="table table-striped table-condensed table-hover">
         	 <tr>
-                        <th width="40%">Nombre de Grupo</th>
-                        <th width="40%">Asignatura</th>
-                        <th width="40%">Docente</th>   
-                        <th width="40%">Horario</th>         
+                        <th width="10%">Nombre de Grupo</th>
+                        <th width="10%">Asignatura</th>
+                        <th width="20%">Docente</th>   
+                        <th width="20%">Horario</th>         
                         <th width="20%">Opciones</th>
                    </tr>';
 	while($registro2 = mysqli_fetch_array($registro)){

@@ -8,8 +8,8 @@ INNER JOIN horarios AS H ON G.idHorario = H.idHorario  WHERE G.NombreGrupo LIKE 
        echo '<table class="table table-striped table-condensed table-hover table-responsive">
         	<tr>
                          
-                        <th width="20%">Nombre de Grupo</th>
-                        <th width="20%">Asignatura</th>
+                        <th width="10%">Nombre de Grupo</th>
+                        <th width="10%">Asignatura</th>
                         <th width="20%">Docente</th>
                         <th width="30%">Horario</th>
                         <th width="20%">Opciones</th>

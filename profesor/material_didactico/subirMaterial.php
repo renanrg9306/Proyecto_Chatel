@@ -18,7 +18,7 @@ if(isset($_SESSION['NombreUsuario'])) {
                  }
 
                  $numero = mysqli_query($conex,"SELECT idGrupo, NombreGrupo FROM grupo");
-                 $Asignacion = mysqli_query($conex,"SELECT  asignaciones.idAsignacion, asignaciones.Descripcion FROM asignaciones INNER JOIN planificacion_tareas ON asignaciones.idAsignacion = planificacion_tareas.idAsignacion INNER JOIN grupo ON asignaciones.idGrupo = grupo.idGrupo WHERE grupo.idProfesor  = $idPersona");
+                 $Asignacion = mysqli_query($conex,"SELECT Asig.idAsignacion,Asig.Descripcion FROM asignaciones AS Asig INNER JOIN grupo AS G ON Asig.idGrupo = G.idGrupo WHERE G.idProfesor = $idPersona");
 ?>
 
 <!DOCTYPE html>
@@ -87,13 +87,13 @@ if(isset($_SESSION['NombreUsuario'])) {
 
 
                                 <div class="list-group">
-                                    <a href="material_didactico.php" class="list-group-item"> <i class="fa fa-folder-open"></i> Material Didactico
+                                    <a href="../material_didactico.php" class="list-group-item"> <i class="fa fa-folder-open"></i> Material Didactico
                                     </a>
-                                    <a href="planificacion_tarea.php" class="list-group-item"><i class="fa fa-file"></i> Planificacion de Tareas
+                                    <a href="../planificacion_tarea.php" class="list-group-item"><i class="fa fa-file"></i> Planificacion de Tareas
                                     </a>
-                                    <a href="evaluacion_estudiantes.php" class="list-group-item"> <i class="fa fa-pencil"></i> Pantalla de Evaluacion
+                                    <a href="../evaluacion_estudiantes.php" class="list-group-item"> <i class="fa fa-pencil"></i> Pantalla de Evaluacion
                                     </a>
-                                    <a href="ver_tarea_estudiante.php" class="list-group-item"> <i class="fa fa-edit"></i> Tarea de Estudiantes
+                                    <a href="../ver_tarea_estudiante.php" class="list-group-item"> <i class="fa fa-edit"></i> Tarea de Estudiantes
                                     </a>
                                     <a href="cambiar_foto.php" class="list-group-item"> <i class="fa fa-user"></i>Cambiar Foto
                                     </a>

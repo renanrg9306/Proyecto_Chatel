@@ -76,14 +76,10 @@ function editarRegistro(id){
 				$('#edi').show();
 				$('#pro').val('Edicion');
 				$('#id-registro').val(id);
-				$('#numero').val(datos[0]);
-				$('#asignatura').val(datos[1]);
-				$('#unidad').val(datos[2]);
-				$('#descripcionU').val(datos[3]);
-				$('#tarea').val(datos[4]);
-				$('#descripcionT').val(datos[5]);
-				$('#fecha').val(datos[6]);
-				$('#codigo').val(datos[7]);
+				$('#idAsignacion').val(datos[0]);
+				$('#tarea').val(datos[1]);
+				$('#descripcionT').val(datos[2]);
+				$('#fecha').val(datos[3]);
 				$('#registra-datos').modal({
 					show:true,
 					backdrop:'static'

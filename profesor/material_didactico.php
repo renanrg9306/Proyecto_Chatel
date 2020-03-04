@@ -362,7 +362,7 @@ include ('includes/perfil.php');
                     <div class="modal-body">Seleccione la opcion de salir si esta seguro!!</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" href="../index.php">Salir</a>
+                        <a class="btn btn-primary" href="index.php">Salir</a>
                     </div>
                 </div>
             </div>

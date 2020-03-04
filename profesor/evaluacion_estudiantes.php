@@ -17,8 +17,13 @@ while($filas=mysqli_fetch_array($consultaD)){
 
  $consultaD2 = mysqli_query($conex, "SELECT   CONCAT(P.Nombre, ' ', P.Apellido) as Profesor, P.correo from persona AS P INNER JOIN usuarios AS U ON P.idPersona = $idPersona"); 
  while($filas2=mysqli_fetch_array($consultaD2)){
-         $profesor=$filas2['correo'];                           
+         $profesor=$filas2['correo'];  
+         
+         
  }
+
+ $grupo=mysqli_query($conex,"select idGrupo, CONCAT(G.NombreGrupo,' ',P.Nombre,' ',H.NombreHorario) As NombreGrupo from grupo AS G INNER JOIN persona AS P ON G.idProfesor = P.idPersona INNER JOIN horarios AS H ON G.idHorario = H.idHorario WHERE G.idProfesor = $idPersona");
+
          
           /* $asignatura=mysqli_query($conex,"SELECT asignaturas.idAsignatura as id, asignaturas.NombreAsignatura as asignatura
                       FROM asignaciones INNER JOIN asignaturas ON  asignaciones.idAsignatura =  asignaturas.idAsignatura
@@ -267,7 +272,7 @@ include ('includes/perfil.php');
                     </form>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="index.php">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="index.php" >
                         <i class="fa fa-fw fa-sign-out"></i>Salir</a>
                 </li>
             </ul>
@@ -294,22 +299,38 @@ include ('includes/perfil.php');
                             <div class="btn-group pull-right">
                             </div>
                             <center>
-                                <h4><b>Evaluacion de Estudiantes</b></h4>
+                                <h4><b>Tareas Pendiente de Evaluación Estudiantes</b></h4>
                             </center>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-2">
-                                    <h4>Buscar:</h4>
+                            <div class = "col-md-12">
+                            <div class="row">
+                                <div class="input-group col-md-1"> 
+                                    <label for="year" class="control-label">Grupo:</label>
                                 </div>
 
-                                <div class="col-md-5">
-                                    <input type="text" name="s" id="bs-prod" class="form-control" placeholder="Escriba el Numero de Carnet del Estudiante">
+                                <div class="col-md-5">    
+                                    <select class="form-control" id="grupo" name="grupo">
+                                        <?php 
+                                        while($fila=mysqli_fetch_row($grupo)){
+                                        echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="col-md-5">
-                                    <button id="nuevo-producto" class="btn btn-success"> <i class="glyphicon glyphicon-plus"></i> Nueva Evaluacion</button>
-                                    <a href="reportes/Reporte_Asignaciones.php"> <button class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Exportar a PDF</button> </a>
+
+                                <div class="col-md-6">
+                                <button class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Exportar a PDF</button>
+                                
                                 </div>
+                            </div> 
+                               
+                            
+                        </div>
+                    </div>
+                                
+                           
                                 <br>
                                 <br>
                                 <div class="registros" style="width:100%;" id="agrega-registros"></div>
@@ -441,7 +462,7 @@ include('../admin/conex.php');
                     <div class="modal-body">Seleccione la opcion de salir si esta seguro!!</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" href="../index.php">Salir</a>
+                        <a class="btn btn-primary" href="/index.php">Salir</a>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@ if(isset($_SESSION['idPersona'])) {
           //$consulta2="select idAsignatura, NombreAsignatura from asignaturas";
        /*    $asignatura=mysqli_query($conex,"select idAsignatura, NombreAsignatura from asignaturas"); */
           //$consulta3="select idGrupo, NumeroGrupo from grupos";
-          $grupo=mysqli_query($conex,"select idGrupo, NombreGrupo from grupo");
+          $grupo=mysqli_query($conex,"select idGrupo, CONCAT(G.NombreGrupo,' ',P.Nombre,' ',H.NombreHorario) As NombreGrupo from grupo AS G INNER JOIN persona AS P ON G.idProfesor = P.idPersona INNER JOIN horarios AS H ON G.idHorario = H.idHorario");
           //$consulta4="select idTurno, NombreTurno from turnos";
           $unidad=mysqli_query($conex,"select idUnidad,Unidad from unidad");
           //$consulta5="select idHorario, NombreHorario from horarios";

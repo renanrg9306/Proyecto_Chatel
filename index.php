@@ -34,7 +34,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Aula Virtual Bases de Datos</a>
+        <!-- <a class="navbar-brand js-scroll-trigger" href="#page-top">Aula Virtual Bases de Datos</a> -->
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -184,7 +184,7 @@
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">
             <a class="portfolio-box" href="images/edi6.jpg">
-              <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" width="70%" height="70%">
+              <img class="img-fluid" src="img/portfolio/1.jpg" width="70%" height="70%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
                   <div class="project-category text-faded">
@@ -198,7 +198,7 @@
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
+            <a class="portfolio-box" href="img/portfolio/2.jpg">
               <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" width="60%" height="60%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -213,7 +213,7 @@
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
+            <a class="portfolio-box" href="img/portfolio/3.jpg">
               <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" width="60%" height="60%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -228,7 +228,7 @@
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
+            <a class="portfolio-box" href="img/portfolio/4.jpg">
               <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" width="55%" height="55%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -243,7 +243,7 @@
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
+            <a class="portfolio-box" href="img/portfolio/5.jpg">
               <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" width="78%" height="78%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -258,7 +258,7 @@
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
+            <a class="portfolio-box" href="img/portfolio/6.jpg">
               <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" width="70%" height="70%">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
